@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS  users;
 
 CREATE DATABASE jobly;
 
+\c jobly
+
 CREATE TABLE companies (
     handle text PRIMARY KEY,
     name text NOT NULL UNIQUE,

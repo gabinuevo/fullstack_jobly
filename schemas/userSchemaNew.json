@@ -62,7 +62,7 @@
       "examples": [
         "email"
       ],
-      "pattern": "^[A-Za-z]*@[A-Za-z].[a-z]$"
+      "pattern": "^(.*)$"
     },
     "photo_url": {
       "$id": "#/properties/photo_url",

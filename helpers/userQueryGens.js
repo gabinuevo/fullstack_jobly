@@ -15,9 +15,7 @@
  * reqObj = { search, min_employees, max_employees }
  */
 function makeGetQuery(reqObj) {
-  let idx = 1;
-  let whereStrMinMax = "";
-  let searchStr = "";
+
   let searchParams = [];
 
   let query = `SELECT username, first_name, last_name, email,
@@ -25,34 +23,6 @@ function makeGetQuery(reqObj) {
 
   if (!reqObj) {
     return query;
-  }
-
-  // Intentionally not letting searches for companies with 0 employees pass.
-  if (reqObj["min_employees"]) {
-    whereStrMinMax += `num_employees>$${idx} AND `;
-    searchParams.push(reqObj["min_employees"]);
-    idx += 1;
-  }
-
-  if (reqObj["max_employees"]) {
-    whereStrMinMax += `num_employees<$${idx} AND `;
-    searchParams.push(reqObj["max_employees"]);
-    idx += 1;
-  }
-
-  if (reqObj["search"]) {
-    searchStr += `name ILIKE $${idx}`;
-    searchParams.push(`%${reqObj["search"]}%`);
-    idx += 1;
-  }
-
-  if (searchStr && !whereStrMinMax) {
-    query += `WHERE ${searchStr}`;
-  } else if (!searchStr && whereStrMinMax) {
-    whereStrMinMax = whereStrMinMax.slice(0, -5); // " AND " = 5
-    query += `WHERE ${whereStrMinMax}`;
-  } else if (searchStr && whereStrMinMax) {
-    query += `WHERE ${whereStrMinMax} ${searchStr}`;
   }
 
   return { query, searchParams };
@@ -80,7 +50,8 @@ function makeInsertQuery(reqObj, safeFields) {
   valueStr = valueStr.slice(0, -2); // ", " = 2
 
   // ", " = 2
-  query = query.slice(0, -2) + valueStr + `) RETURNING handle, name, num_employees, description, logo_url`;
+  query = query.slice(0, -2) + valueStr + `) RETURNING username, first_name, last_name, email,
+      photo_url, is_admin`;
 
   return { query, valuesArr };
 }

@@ -2,20 +2,21 @@ const Router = require("express").Router;
 const ExpressError = require("../helpers/expressError");
 const { BAD_REQUEST, NOT_FOUND } = require("../config");
 const { validate } = require("jsonschema");
-const jobSchemaNew = require("../schemas/userSchemaNew.json");
+const userSchemaNew = require("../schemas/userSchemaNew.json");
+const User = require("../models/user");
 
 const router = new Router();
 
 /** Post a new user, return error if data is invalid. */
 router.post("/", async function (req, res, next) {
   try {
-    const validation = validate(req.body, jobSchemaNew);
+    const validation = validate(req.body, userSchemaNew);
 
     if (!validation.valid) {
       const errors = validation.errors.map(e => e.stack);
       throw new ExpressError(errors, BAD_REQUEST);
     }
-    const user = await User.addNewUser(req.body);
+    const user = await User.addUser(req.body);
 
     return res.status(201).json({ user });
   } catch (err) {
@@ -97,4 +98,4 @@ router.post("/", async function (req, res, next) {
 //   }
 // });
 
-// module.exports = router;
+module.exports = router;
