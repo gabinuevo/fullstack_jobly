@@ -70,17 +70,17 @@ class User {
     return result.rows[0];
   }
 
-  // /** Takes in User handle, deletes User if in database. 
-  //  * Returns SQL DELETE object. */
-  // static async deleteOneUser(handle) {
+  /** Takes in User handle, deletes User if in database. 
+   * Returns SQL DELETE object. */
+  static async deleteOneUser(username) {
 
-  //   const result = await db.query(
-  //     `DELETE FROM companies
-  //           WHERE handle=$1`,
-  //     [handle]);
+    const result = await db.query(
+      `DELETE FROM users
+            WHERE username=$1`,
+      [username]);
 
-  //   return result;
-  // }
+    return result;
+  }
 
 }
 

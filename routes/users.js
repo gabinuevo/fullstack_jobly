@@ -3,6 +3,7 @@ const ExpressError = require("../helpers/expressError");
 const { BAD_REQUEST, NOT_FOUND } = require("../config");
 const { validate, FormatChecker } = require("jsonschema");
 const userSchemaNew = require("../schemas/userSchemaNew.json");
+const userSchemaPatch = require("../schemas/userSchemaPatch.json");
 const User = require("../models/user");
 
 const router = new Router();
@@ -38,8 +39,6 @@ router.post("/", async function (req, res, next) {
 */
 router.get("/", async function (req, res, next) {
   try {
-    const { search, min_salary, min_equity } = req.body;
-
     const result = await User.getAllUsers();
     return res.json({ users: result });
 
@@ -73,37 +72,46 @@ router.get("/:username", async function (req, res, next) {
 */
 router.patch("/:username", async function (req, res, next) {
   try {
-    const username = req.params.username;
 
+    const validation = validate(req.body, userSchemaPatch);
+
+    if (!validation.valid) {
+      const errors = validation.errors.map(e => e.stack);
+      throw new ExpressError(errors, BAD_REQUEST);
+    }
+
+    const username = req.params.username;
     const result = await User.updateOneUser('users', req.body, 'username', username);
+
+    const { password, ...userData } = result;
 
     if (result === undefined) {
       throw new ExpressError('User not found', NOT_FOUND)
     } else {
-      return res.json({ user: result });
+      return res.json({ user: userData });
     }
   } catch (err) {
     return next(err);
   }
 });
 
-// /** DELETE /:id  - delete a job by its ID 
-//  * returns message of deletes
-// * => { message: "Job deleted." } */
-// router.delete("/:id", async function (req, res, next) {
-//   try {
-//     const jobID = req.params.id;
+/** DELETE /:username  - delete a user by their username 
+ * returns message of deletion
+* => { message: "User deleted." } */
+router.delete("/:username", async function (req, res, next) {
+  try {
+    const username = req.params.username;
 
-//     const result = await Job.deleteOneJob(jobID);
+    const result = await User.deleteOneUser(username);
 
-//     if (result.rowCount === 0) {
-//       throw new ExpressError('Job not found', NOT_FOUND)
-//     } else {
-//       return res.json({ message: 'Job deleted.' });
-//     }
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
+    if (result.rowCount === 0) {
+      throw new ExpressError('User not found', NOT_FOUND)
+    } else {
+      return res.json({ message: 'User deleted.' });
+    }
+  } catch (err) {
+    return next(err);
+  }
+});
 
 module.exports = router;
