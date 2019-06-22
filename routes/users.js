@@ -40,7 +40,7 @@ router.get("/", async function (req, res, next) {
   try {
     const { search, min_salary, min_equity } = req.body;
 
-    const result = await User.getAll();
+    const result = await User.getAllUsers();
     return res.json({ users: result });
 
   } catch (err) {
@@ -48,44 +48,44 @@ router.get("/", async function (req, res, next) {
   }
 });
 
-// /** GET /:id  - get details of 1 job w/ id in params
-// * => {job:jobData}
-// */
-// router.get("/:id", async function (req, res, next) {
-//   try {
-//     const jobID = req.params.id;
+/** GET /:username  - get details of 1 user w/ username in params
+* => {user:userData}
+*/
+router.get("/:username", async function (req, res, next) {
+  try {
+    const username = req.params.username;
 
-//     const result = await Job.getDetailsofOneJob(jobID);
+    const result = await User.getOneUser(username);
 
-//     if (result === undefined) {
-//       throw new ExpressError('Job not found', NOT_FOUND)
-//     } else {
-//       return res.json({ job: result });
-//     }
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
+    if (result === undefined) {
+      throw new ExpressError('User not found', NOT_FOUND)
+    } else {
+      return res.json({ user: result });
+    }
+  } catch (err) {
+    return next(err);
+  }
+});
 
-// /** PATCH /:id  - updates a job by its ID 
-//  * returns an the newly updated job
-// * => {job:jobData}
-// */
-// router.patch("/:id", async function (req, res, next) {
-//   try {
-//     const jobID = req.params.id;
+/** PATCH /:username  - updates a user by its username 
+ * returns an the newly updated usrr
+* => {user: userData}
+*/
+router.patch("/:username", async function (req, res, next) {
+  try {
+    const username = req.params.username;
 
-//     const result = await Job.updateOneJob('jobs', req.body, 'id', jobID);
+    const result = await User.updateOneUser('users', req.body, 'username', username);
 
-//     if (result === undefined) {
-//       throw new ExpressError('Job not found', NOT_FOUND)
-//     } else {
-//       return res.json({ job: result });
-//     }
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
+    if (result === undefined) {
+      throw new ExpressError('User not found', NOT_FOUND)
+    } else {
+      return res.json({ user: result });
+    }
+  } catch (err) {
+    return next(err);
+  }
+});
 
 // /** DELETE /:id  - delete a job by its ID 
 //  * returns message of deletes

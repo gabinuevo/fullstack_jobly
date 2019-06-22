@@ -1,6 +1,6 @@
 /** User class for Jobly */
 const db = require('../db');
-// const sqlForPartialUpdate = require('../helpers/partialUpdate');
+const sqlForPartialUpdate = require('../helpers/partialUpdate');
 const { makeInsertQuery } = require('../helpers/UserQueryGens');
 const { BAD_REQUEST } = require('../config');
 
@@ -22,7 +22,7 @@ class User {
    * [{handle, name}, ...]
    */
 
-  static async getAll() {
+  static async getAllUsers() {
 
     const result = await db.query(`SELECT username, first_name, last_name, email,
       photo_url, is_admin FROM users`);
@@ -47,28 +47,28 @@ class User {
     }
   }
 
-  // /** Get all User data using User handle. Returns User
-  //  * object or User not found error. */
-  // static async getOneUser(handle) {
-  //   const result = await db.query(
-  //     `SELECT handle, name, num_employees, description, logo_url 
-  //           FROM companies WHERE handle=$1`,
-  //     [handle]);
+  /** Get all User data using User's username. Returns User
+   * object or User not found error. */
+  static async getOneUser(username) {
+    const result = await db.query(
+      `SELECT username, first_name, last_name, email, photo_url, is_admin
+            FROM users WHERE username=$1`,
+      [username]);
 
-  //   return result.rows[0];
-  // }
+    return result.rows[0];
+  }
 
-  // /** Takes in viariable information on a User selected via handle,
-  //  * changes appropriate fields, returns User object with
-  //  * User data. */
-  // static async updateOneUser(table, items, key, id) {
-  //   const safeFields = User.getSafeFields()
-  //   const queryInfo = sqlForPartialUpdate(table, items, key, id, safeFields);
+  /** Takes in viariable information on a User selected via handle,
+   * changes appropriate fields, returns User object with
+   * User data. */
+  static async updateOneUser(table, items, key, username) {
+    const safeFields = User.getSafeFields()
+    const queryInfo = sqlForPartialUpdate(table, items, key, username, safeFields);
 
-  //   const result = await db.query(queryInfo.query, queryInfo.values);
+    const result = await db.query(queryInfo.query, queryInfo.values);
 
-  //   return result.rows[0];
-  // }
+    return result.rows[0];
+  }
 
   // /** Takes in User handle, deletes User if in database. 
   //  * Returns SQL DELETE object. */
