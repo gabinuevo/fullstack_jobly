@@ -2,6 +2,7 @@ const Router = require("express").Router;
 const Company = require("../models/company");
 const ExpressError = require("../helpers/expressError");
 const { BAD_REQUEST, NOT_FOUND } = require("../config");
+const { authenticateJWT, ensureLoggedIn, ensureAdmin } = require("../middleware/auth");
 const { validate } = require("jsonschema");
 const Job = require("../models/job");
 const companySchemaNew = require("../schemas/companySchemaNew.json");
@@ -13,7 +14,7 @@ const router = new Router();
 * list of companies matching passed in parameters.
 * => {companies [{name, handle}, ...]}
 */
-router.get("/", async function (req, res, next) {
+router.get("/", authenticateJWT, ensureLoggedIn, async function (req, res, next) {
     try {
         const { search, min_employees, max_employees } = req.body;
         // note: if one is missing, this if statement will not run
@@ -31,7 +32,7 @@ router.get("/", async function (req, res, next) {
 });
 
 /** Post a new company, return error if data is invalid. */
-router.post("/", async function (req, res, next) {
+router.post("/", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (req, res, next) {
     try {
         const validation = validate(req.body, companySchemaNew);
         if (!validation.valid) {
@@ -47,7 +48,7 @@ router.post("/", async function (req, res, next) {
 });
 
 /** get data on one company, return NOT_FOUND error if company not in database */
-router.get("/:handle", async function (req, res, next){
+router.get("/:handle", authenticateJWT, ensureLoggedIn, async function (req, res, next){
     try {
         const handle = req.params.handle;
 
@@ -69,7 +70,7 @@ router.get("/:handle", async function (req, res, next){
  * returns error if company does not exist.
  * otherwise returns all up to date info on company.
  */
-router.patch("/:handle", async function (req, res, next){
+router.patch("/:handle", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (req, res, next){
     try {
         const validation = validate(req.body, companySchemaPatch);
         if (!validation.valid) {
@@ -97,7 +98,7 @@ router.patch("/:handle", async function (req, res, next){
 
 /** Delete company via company handle. Returns --
  * { message: "Company deleted." } */
-router.delete("/:handle", async function (req, res, next){
+router.delete("/:handle", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (req, res, next){
     try {
         const result = await Company.deleteOneCompany(req.params.handle);
 

@@ -2,13 +2,14 @@ const Router = require("express").Router;
 const Job = require("../models/job");
 const ExpressError = require("../helpers/expressError");
 const { BAD_REQUEST, NOT_FOUND } = require("../config");
+const { authenticateJWT, ensureLoggedIn, ensureAdmin } = require("../middleware/auth");
 const { validate } = require("jsonschema");
 const jobSchemaNew = require("../schemas/jobSchemaNew.json");
 
 const router = new Router();
 
 /** Post a new job, return error if data is invalid. */
-router.post("/", async function (req, res, next) {
+router.post("/", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (req, res, next) {
     try {
         const validation = validate(req.body, jobSchemaNew);
 
@@ -28,7 +29,7 @@ router.post("/", async function (req, res, next) {
 * list of jobs matching passed in parameters.
 * => {jobs: [{title, company_handle}, ...]}
 */
-router.get("/", async function (req, res, next) {
+router.get("/", authenticateJWT, ensureLoggedIn, async function (req, res, next) {
     try {
         const { search, min_salary, min_equity } = req.body;
 
@@ -43,7 +44,7 @@ router.get("/", async function (req, res, next) {
 /** GET /:id  - get details of 1 job w/ id in params
 * => {job:jobData}
 */
-router.get("/:id", async function (req, res, next) {
+router.get("/:id", authenticateJWT, ensureLoggedIn, async function (req, res, next) {
     try {
         const jobID = req.params.id;
 
@@ -63,7 +64,7 @@ router.get("/:id", async function (req, res, next) {
  * returns an the newly updated job
 * => {job:jobData}
 */
-router.patch("/:id", async function (req, res, next) {
+router.patch("/:id", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (req, res, next) {
     try {
         const jobID = req.params.id;
 
@@ -82,7 +83,7 @@ router.patch("/:id", async function (req, res, next) {
 /** DELETE /:id  - delete a job by its ID 
  * returns message of deletes
 * => { message: "Job deleted." } */
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (req, res, next) {
     try {
         const jobID = req.params.id;
 
