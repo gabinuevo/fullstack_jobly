@@ -1,8 +1,8 @@
 /** User class for Jobly */
-const db = require("../db");
-const sqlForPartialUpdate = require("../helpers/partialUpdate");
-const { makeGetQuery, makeInsertQuery } = require("../helpers/UserQueryGens");
-const { BAD_REQUEST } = require("../config");
+const db = require('../db');
+// const sqlForPartialUpdate = require('../helpers/partialUpdate');
+const { makeGetQuery, makeInsertQuery } = require('../helpers/UserQueryGens');
+const { BAD_REQUEST } = require('../config');
 
 
 /** A User on the site */
@@ -10,8 +10,8 @@ const { BAD_REQUEST } = require("../config");
 class User {
 
   static getSafeFields() {
-    const safeFields = ["username", "password", "first_name", "last_name", "email",
-      "photo_url", "is_admin"];
+    const safeFields = ['username', 'password', 'first_name', 'last_name', 'email',
+      'photo_url', 'is_admin'];
     return safeFields;
   }
 
@@ -39,10 +39,13 @@ class User {
       const safeFields = User.getSafeFields();
       const queryInfo = makeInsertQuery(inputObj, safeFields);
       const result = await db.query(queryInfo.query, queryInfo.valuesArr);
-
       return result.rows[0];
     } catch (err) {
-      throw { status: BAD_REQUEST, message: "User handle already taken" }
+      if (err.message.includes("users_email_key")) {
+        throw { status: BAD_REQUEST, message: "Email is already taken" }
+      } else {
+        throw { status: BAD_REQUEST, message: "Username has already been taken" }
+      }
     }
   }
 

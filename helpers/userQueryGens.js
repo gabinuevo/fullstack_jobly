@@ -50,8 +50,7 @@ function makeInsertQuery(reqObj, safeFields) {
   valueStr = valueStr.slice(0, -2); // ", " = 2
 
   // ", " = 2
-  query = query.slice(0, -2) + valueStr + `) RETURNING username, first_name, last_name, email,
-      photo_url, is_admin`;
+  query = query.slice(0, -2) + valueStr + `) RETURNING username, first_name, last_name, email, photo_url, is_admin`;
 
   return { query, valuesArr };
 }

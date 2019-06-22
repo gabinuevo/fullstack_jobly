@@ -1,8 +1,8 @@
 DROP DATABASE IF EXISTS  jobly;
 
-DROP TABLE IF EXISTS  companies;
-DROP TABLE IF EXISTS  jobs;
-DROP TABLE IF EXISTS  users;
+-- DROP TABLE IF EXISTS  companies;
+-- DROP TABLE IF EXISTS  jobs;
+-- DROP TABLE IF EXISTS  users;
 
 CREATE DATABASE jobly;
 
@@ -28,7 +28,7 @@ CREATE TABLE jobs (
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    username text NOT NULL,
+    username text NOT NULL UNIQUE,
     password text NOT NULL,
     first_name text NOT NULL,
     last_name text NOT NULL,

@@ -1,16 +1,26 @@
 const Router = require("express").Router;
 const ExpressError = require("../helpers/expressError");
 const { BAD_REQUEST, NOT_FOUND } = require("../config");
-const { validate } = require("jsonschema");
+const { validate, FormatChecker } = require("jsonschema");
 const userSchemaNew = require("../schemas/userSchemaNew.json");
 const User = require("../models/user");
 
 const router = new Router();
 
+// function makeTimer() {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (Math.random() > .5) return resolve("we did it")
+//       return reject("nope")
+//     }, 2000)
+//   })
+// }
+
 /** Post a new user, return error if data is invalid. */
 router.post("/", async function (req, res, next) {
   try {
     const validation = validate(req.body, userSchemaNew);
+    // validate(req.body.email, { format: "email" }, FormatChecker.conforms())
 
     if (!validation.valid) {
       const errors = validation.errors.map(e => e.stack);
