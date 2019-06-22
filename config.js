@@ -7,8 +7,11 @@ const SECRET_KEY = process.env.SECRET_KEY || "test";
 
 const PORT = +process.env.PORT || 3000;
 
+const saltRounds = 14;
+
 const BAD_REQUEST = 400;
 const NOT_FOUND = 404;
+const UNAUTHORIZED = 403;
 
 // database is:
 //
@@ -30,5 +33,7 @@ module.exports = {
   PORT,
   DB_URI,
   BAD_REQUEST,
-  NOT_FOUND
+  NOT_FOUND,
+  UNAUTHORIZED,
+  saltRounds
 };

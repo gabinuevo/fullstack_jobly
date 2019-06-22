@@ -1,8 +1,9 @@
 /** User class for Jobly */
 const db = require('../db');
+const bcrypt = require("bcrypt");
 const sqlForPartialUpdate = require('../helpers/partialUpdate');
 const { makeInsertQuery } = require('../helpers/UserQueryGens');
-const { BAD_REQUEST } = require('../config');
+const { BAD_REQUEST, UNAUTHORIZED, saltRounds } = require('../config');
 
 
 /** A User on the site */
@@ -35,6 +36,8 @@ class User {
   static async addUser(inputObj) {
     try {
       const safeFields = User.getSafeFields();
+      inputObj = { ...inputObj, password: bcrypt.hashSync(inputObj.password, saltRounds) };
+
       const queryInfo = makeInsertQuery(inputObj, safeFields);
       const result = await db.query(queryInfo.query, queryInfo.valuesArr);
       return result.rows[0];
@@ -44,6 +47,21 @@ class User {
       } else {
         throw { status: BAD_REQUEST, message: "Username has already been taken" }
       }
+    }
+  }
+
+  /** Login a User into the database -- returns
+   * {username, first_name, last_name, email, photo_url, is_admin} */
+  static async loginUser(username, password) {
+    try {
+      const dbPW = await db.query(`SELECT password FROM users WHERE username=$1`, [username])
+
+      const response = bcrypt.compareSync(password, dbPW.rows[0].password);
+      if (response) {
+        return await this.getOneUser(username);
+      }
+    } catch (err) {
+      throw { status: UNAUTHORIZED, message: "Invalid Credentials" };
     }
   }
 
