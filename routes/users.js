@@ -20,7 +20,6 @@ const router = new Router();
 router.post("/", async function (req, res, next) {
   try {
     const validation = validate(req.body, userSchemaNew);
-    // validate(req.body.email, { format: "email" }, FormatChecker.conforms())
 
     if (!validation.valid) {
       const errors = validation.errors.map(e => e.stack);
@@ -34,21 +33,20 @@ router.post("/", async function (req, res, next) {
   }
 });
 
-// /** GET /  - get full list of jobs or
-// * list of jobs matching passed in parameters.
-// * => {jobs: [{title, company_handle}, ...]}
-// */
-// router.get("/", async function (req, res, next) {
-//   try {
-//     const { search, min_salary, min_equity } = req.body;
+/** GET /  - get full list of users
+* => {users: [{username, first_name, last_name, email, photo_url, isAdmin}, ...]}
+*/
+router.get("/", async function (req, res, next) {
+  try {
+    const { search, min_salary, min_equity } = req.body;
 
-//     const result = await Job.searchByTerms({ search, min_salary, min_equity });
-//     return res.json({ jobs: result });
+    const result = await User.getAll();
+    return res.json({ users: result });
 
-//   } catch (err) {
-//     return next(err);
-//   }
-// });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 // /** GET /:id  - get details of 1 job w/ id in params
 // * => {job:jobData}

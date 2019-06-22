@@ -1,7 +1,7 @@
 /** User class for Jobly */
 const db = require('../db');
 // const sqlForPartialUpdate = require('../helpers/partialUpdate');
-const { makeGetQuery, makeInsertQuery } = require('../helpers/UserQueryGens');
+const { makeInsertQuery } = require('../helpers/UserQueryGens');
 const { BAD_REQUEST } = require('../config');
 
 
@@ -15,22 +15,20 @@ class User {
     return safeFields;
   }
 
-  // /** Get a list of companies 
-  //  * NOTE: MUST TAKE OBJECT
-  //  * FIXME: Naming can be clearer; maybe searchByTerms()???
-  //  * -- returns
-  //  * [{handle, name}, ...]
-  //  */
+  /** Get a list of companies 
+   * NOTE: MUST TAKE OBJECT
+   * FIXME: Naming can be clearer; maybe searchByTerms()???
+   * -- returns
+   * [{handle, name}, ...]
+   */
 
-  // static async getAll(queryObj) {
-  //   const safeFields = this.getSafeFields();
+  static async getAll() {
 
-  //   const queryInfo = makeGetQuery(queryObj, safeFields);
-  //   const result = await db.query(queryInfo.query,
-  //     queryInfo.searchParams);
+    const result = await db.query(`SELECT username, first_name, last_name, email,
+      photo_url, is_admin FROM users`);
 
-  //   return result.rows;
-  // }
+    return result.rows;
+  }
 
   /** Insert a new User into the database -- returns
    * {username, first_name, last_name, email, photo_url, is_admin} */

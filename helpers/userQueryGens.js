@@ -1,33 +1,3 @@
-/** Help functions to generate dynamic SQL queries
- * for companies.
-*/
-
-/** Generates search query to search for company or companies:
- * - All companies search if no arguments entered.
- * - A company by name or partial name if only search argument entered.
- * - Companies with min or max or both employee requirements,
- *   if only min, max, or both arguments are used.
- * - A company by name or partial name and min or max or both
- *   if search and some combination of min max are used.
- * reqObj is and object of potential search parameters passed in
- * from "/companies/" get route. It can equal any combination
- * of the following fields:
- * reqObj = { search, min_employees, max_employees }
- */
-function makeGetQuery(reqObj) {
-
-  let searchParams = [];
-
-  let query = `SELECT username, first_name, last_name, email,
-      photo_url, is_admin FROM users `;
-
-  if (!reqObj) {
-    return query;
-  }
-
-  return { query, searchParams };
-}
-
 /** Generates an INSERT SQL query dynamically based on input
  * from client. Minimum information require is handle and name.
  */
@@ -55,4 +25,4 @@ function makeInsertQuery(reqObj, safeFields) {
   return { query, valuesArr };
 }
 
-module.exports = { makeGetQuery, makeInsertQuery };
+module.exports = { makeInsertQuery };
