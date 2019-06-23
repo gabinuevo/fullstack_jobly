@@ -3,7 +3,7 @@ const db = require('../db');
 const bcrypt = require("bcrypt");
 const sqlForPartialUpdate = require('../helpers/partialUpdate');
 const { makeInsertQuery } = require('../helpers/UserQueryGens');
-const { BAD_REQUEST, UNAUTHORIZED, saltRounds } = require('../config');
+const { BAD_REQUEST, NOT_FOUND, UNAUTHORIZED, saltRounds } = require('../config');
 
 
 /** A User on the site */
@@ -68,12 +68,25 @@ class User {
   /** Get all User data using User's username. Returns User
    * object or User not found error. */
   static async getOneUser(username) {
-    const result = await db.query(
+    let result = await db.query(
       `SELECT username, first_name, last_name, email, photo_url, is_admin
             FROM users WHERE username=$1`,
       [username]);
+    result = result.rows[0];
+    if (!result) {
+      throw { status: NOT_FOUND, message: "user not found" }
+    } else {
 
-    return result.rows[0];
+      const userJobsRes = await db.query(
+        `SELECT j.id, j.title, j.company_handle, a.state 
+           FROM applications AS a
+             JOIN jobs AS j ON j.id = a.job_id
+           WHERE a.username = $1`,
+        [username]);
+      result.jobs = userJobsRes.rows;
+
+      return result;
+    }
   }
 
   /** Takes in viariable information on a User selected via handle,

@@ -37,6 +37,13 @@ CREATE TABLE users (
     is_admin BOOLEAN DEFAULT FALSE
 );
 
+CREATE TABLE applications (
+    username text NOT NULL,
+    job_id integer NOT NULL,
+    state text NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
 -- CREATE TABLE messages (
 --     id SERIAL PRIMARY KEY,
 --     from_username text NOT NULL REFERENCES users,

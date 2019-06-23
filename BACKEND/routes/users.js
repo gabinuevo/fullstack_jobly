@@ -30,7 +30,6 @@ router.get("/", authenticateJWT, async function (req, res, next) {
 router.get("/:username", authenticateJWT, async function (req, res, next) {
   try {
     const username = req.params.username;
-
     const result = await User.getOneUser(username);
 
     if (result === undefined) {
@@ -66,8 +65,8 @@ router.post("/", async function (req, res, next) {
 */
 router.post("/login", async function (req, res, next) {
   try {
-    console.log("BACKEND PINGED");
     const { username, password } = req.body;
+    console.log("IN LOGINNNN", req.body)
     const user = await User.loginUser(username, password);
 
     if (!user) {

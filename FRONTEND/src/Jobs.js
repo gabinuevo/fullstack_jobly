@@ -23,13 +23,12 @@ class Jobs extends Component {
   // get job data from API
   async componentDidMount() {
     try {
-      let data = await JoblyApi.getJobs()
-
+      const data = await JoblyApi.getJobs()
       this.setState({
         jobData: data,
         loading: false
       });
-    } catch(err) {
+    } catch (err) {
       this.setState({
         error: err
       });
@@ -39,41 +38,45 @@ class Jobs extends Component {
   // updates query make another API req
   async updateQuery(query) {
     try {
-      let searchData = await JoblyApi.getJobs({"search": query})
+      const searchData = await JoblyApi.getJobs({ "search": query })
       this.setState({
         jobData: searchData
       });
-    } catch(err) {
+    } catch (err) {
       this.setState({
         error: err
       });
     }
   }
 
-  
+
   render() {
     //  appliedJobs is a set of all jobs user has applied to
-    const appliedJobs = new Set(this.props.currJobs.map( job => job.id ));
-    const jobs = this.state.jobData.map( job => 
-      <JobCard 
-        title={job.title} 
-        salary={job.salary} 
-        equity={job.equity}
-        key={ job.id }
-        applied={ appliedJobs.has(job.id) }
-        triggerApply={ () => this.props.triggerApply(job.id) }
-      />
-    )
+    let jobs;
+    let appliedJobs;
+    if (!this.state.loading) {
+      appliedJobs = new Set(this.props.currJobs.map(job => job.id));
+      jobs = this.state.jobData.map(job =>
+        <JobCard
+          title={job.title}
+          salary={job.salary}
+          equity={job.equity}
+          key={job.id}
+          applied={appliedJobs.has(job.id)}
+          triggerApply={() => this.props.triggerApply(job.id)}
+        />
+      )
+    }
     return (
       <div className="jobs">
-        { !this.state.error && this.state.loading
+        {!this.state.error && this.state.loading
           ? <p>Loading...</p>
           : <div>
             <Search triggerUpdateQuery={this.updateQuery} />
-            { jobs }
+            {jobs}
           </div>
-        } 
-        { this.state.error && <p>Something happened</p>}
+        }
+        {this.state.error && <p>Something happened</p>}
       </div>
     );
   }

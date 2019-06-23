@@ -28,7 +28,7 @@ class Login extends Component {
         password: this.state.password
       });
     } else {
-      await this.props.console.log("******************", queryInfo)(this.state);
+      await this.props.triggerRegister(this.state);
     }
     this.props.history.push("/jobs");
   }

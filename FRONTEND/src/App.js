@@ -21,12 +21,15 @@ class App extends Component {
     this.handleRegister = this.handleRegister.bind(this);
     this.handleApply = this.handleApply.bind(this);
   }
-  
+
   // ensures currUser is updated prior to rendering page
   async componentDidMount() {
+    let token = localStorage.getItem("_token")
     try {
-      await this.updateCurrUser();
-    } catch(err) {
+      if (token && !this.state.currUser) {
+        await this.updateCurrUser();
+      }
+    } catch (err) {
       this.setState({
         error: err
       });
@@ -35,15 +38,15 @@ class App extends Component {
       loading: false,
     })
   }
-  
+
   // helper function that decodes token to 
   // set user's username in state
-	async updateCurrUser() {
+  async updateCurrUser() {
     let currUser;
-
     let token = localStorage.getItem("_token")
-    if(token){
+    if (token && !this.state.currUser) {
       let username = decode(token).username;
+
       currUser = await JoblyApi.getUserInfo(username);
     } else {
       currUser = null;
@@ -54,69 +57,72 @@ class App extends Component {
       error: null
     });
   }
-  
+
   // get token from API
-  async handleLogin(input){
+  async handleLogin(input) {
     try {
       // get token and save to local storage
-      const token = await JoblyApi.getTokenLogin(input);
+      const {token, user} = await JoblyApi.getTokenLogin(input);
       localStorage.setItem("_token", token);
-      await this.updateCurrUser();
+      this.setState({
+        error: null,
+        currUser: user,
+      });
       this.props.history.push("/jobs");
-    } catch(err) {
-        this.setState({
-            error: err
-        });
+    } catch (err) {
+      this.setState({
+        error: err
+      });
     }
   }
 
   // handles registering new user. 
-  async handleRegister(input){
+  async handleRegister(input) {
     try {
       // get token and save to local storage
       const token = await JoblyApi.getTokenRegister(input);
       localStorage.setItem("_token", token);
       await this.updateCurrUser();
       this.props.history.push("/jobs");
-    } catch(err) {
+    } catch (err) {
       this.setState({
-          error: err
+        error: err
       });
     }
   }
 
   // removes token from local storage, updates currUser, 
   // and re-routes user to homepage.
-  handleLogout(){
+  handleLogout() {
     localStorage.removeItem("_token");
     this.updateCurrUser();
     this.props.history.push("/");
   }
-  
+
   // Sends note to server indicating that a job has been applied to. 
   // Updates currUser in state.
-  async handleApply(id){
+  async handleApply(id) {
     try {
       await JoblyApi.getApplicationMsg(id);
       await this.updateCurrUser();
-    } catch(err) {
+    } catch (err) {
       this.setState({
         error: err
-    });
+      });
     }
   }
-  
+
   render() {
     return (
       <div className="App">
-        { this.state.loading
+        {this.state.loading
           ? <p>loading...</p>
           : (<>
-            <NavBar currUser={ this.state.currUser } triggerLogout={ this.handleLogout } />
-            <Routes currUser={ this.state.currUser } triggerLogin={ this.handleLogin } triggerRegister={ this.handleRegister } triggerApply={ this.handleApply } />
+            <NavBar currUser={this.state.currUser} triggerLogout={this.handleLogout} />
+            <Routes currUser={this.state.currUser} triggerLogin={this.handleLogin} triggerRegister={this.handleRegister} triggerApply={this.handleApply} />
           </>)
         }
-          
+
       </div>
     );
   }

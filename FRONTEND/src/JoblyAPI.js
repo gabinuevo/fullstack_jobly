@@ -8,15 +8,17 @@ class JoblyApi {
     paramsOrData._token = localStorage.getItem("_token") || null;
 
     console.log("API Call:", endpoint, paramsOrData, verb);
-
+    
     try {
-      return (await axios({
+      let response =  (await axios({
         method: verb,
         url: `${BASE_URL}${endpoint}`, 
         [verb === "get" ? "params" : "data"]: paramsOrData})).data;
         // axios sends query string data via the "params" key,
         // and request body data via the "data" key,
         // so the key we need depends on the HTTP verb
+        console.log("THIS IS THE RESPONSE", response)
+      return response
     }
     catch(err) {
       console.error("API Error:", err.response);
@@ -46,7 +48,7 @@ class JoblyApi {
   // login makes post request to /auth/login with username and password
   static async getTokenLogin(data) {
     let res = await this.request(`users/login`, data, "post");
-    return res.token;
+    return {token: res.token, user: res.user};
   }
 
   // login makes post request to /auth/login with username and password
