@@ -29,7 +29,7 @@ router.post("/", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (r
 * list of jobs matching passed in parameters.
 * => {jobs: [{title, company_handle}, ...]}
 */
-router.get("/", authenticateJWT, async function (req, res, next) {
+router.get("/", authenticateJWT, ensureLoggedIn, async function (req, res, next) {
     try {
         const { search, min_salary, min_equity } = req.body;
 

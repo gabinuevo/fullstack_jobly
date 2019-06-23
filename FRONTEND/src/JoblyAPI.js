@@ -54,7 +54,6 @@ class JoblyApi {
   // login makes post request to /auth/login with username and password
   static async getTokenRegister(data) {
     let res = await this.request(`users/`, data, "post");
-    debugger;
     return res.token;
   }
 

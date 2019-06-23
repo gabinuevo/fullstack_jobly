@@ -95,7 +95,10 @@ class App extends Component {
   // and re-routes user to homepage.
   handleLogout() {
     localStorage.removeItem("_token");
-    this.updateCurrUser();
+    this.setState({
+      loading: false,
+      currUser: null,
+    })
     this.props.history.push("/");
   }
 
