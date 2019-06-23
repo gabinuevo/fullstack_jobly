@@ -38,13 +38,13 @@ class Jobs extends Component {
   // updates query make another API req
   async updateQuery(query) {
     try {
-      const searchData = await JoblyApi.getJobs({ "search": query })
+      const searchData = await JoblyApi.getJobs({ "search": query });
       this.setState({
-        jobData: searchData
+        jobData: searchData,
       });
     } catch (err) {
       this.setState({
-        error: err
+        error: err,
       });
     }
   }

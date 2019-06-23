@@ -31,7 +31,7 @@ router.post("/", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (r
 */
 router.get("/", authenticateJWT, ensureLoggedIn, async function (req, res, next) {
     try {
-        const { search, min_salary, min_equity } = req.body;
+        const { search, min_salary, min_equity } = req.query;
 
         const result = await Job.searchByTerms({ search, min_salary, min_equity });
         return res.json({jobs: result});
