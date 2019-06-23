@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<nav
+  className="NavBar"
+>
+  <NavLink
+    className="NavBar-logo"
+    exact={true}
+    to="/"
+  >
+    Jobly
+  </NavLink>
+  <section>
+    <NavLink
+      exact={true}
+      to="/login"
+    >
+      Log In
+    </NavLink>
+    <NavLink
+      exact={true}
+      to="/register"
+    >
+      Register
+    </NavLink>
+  </section>
+</nav>
+`;

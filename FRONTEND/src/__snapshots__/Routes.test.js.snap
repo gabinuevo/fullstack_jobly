@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div
+  className="Routes"
+>
+  <Switch>
+    <Route
+      exact={true}
+      path="/"
+      render={[Function]}
+    />
+    <Route
+      exact={true}
+      path="/login"
+      render={[Function]}
+    />
+    <Route
+      exact={true}
+      path="/register"
+      render={[Function]}
+    />
+    <Route
+      path="/"
+      render={[Function]}
+    />
+  </Switch>
+</div>
+`;

@@ -1,0 +1,16 @@
+.Search {
+    width: 600px;
+    margin: 1.5em auto;
+    position: relative;
+}
+
+
+button {
+    display: inline-block;
+    width: 50px;
+}
+
+form {
+    width: 600px;
+    display: inline-block;
+}

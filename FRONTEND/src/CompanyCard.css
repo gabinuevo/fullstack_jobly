@@ -1,0 +1,21 @@
+.CompanyCard, 
+.CompanyCard-link {
+  width: 600px;
+  margin: 0em auto;
+}
+
+.CompanyCard {
+  border: solid 1px gainsboro;
+  padding: 1em;
+  text-align: left;
+}
+
+.CompanyCard:hover {
+  box-shadow: 0px 0px 3px turquoise;
+}
+
+.CompanyCard-logo {
+  float: right;
+  margin: 0.5em;
+}
+

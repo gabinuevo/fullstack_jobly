@@ -35,9 +35,10 @@ class Job {
         const safeFields = this.getSafeFields();
 
         const queryInfo = makeGetQuery(queryObj, safeFields);
+        console.log("******************", queryInfo)
         const result = await db.query(queryInfo.query,
             queryInfo.searchParams);
-
+        console.log("&&&&&&&&&&&&&&&&&&&", result)
         return result.rows;
     }
 

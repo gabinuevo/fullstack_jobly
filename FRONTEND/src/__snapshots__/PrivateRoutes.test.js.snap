@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div
+  className="PrivateRoutes"
+>
+  <Switch>
+    <Redirect
+      to="/login"
+    />
+    <Route
+      exact={true}
+      path="/companies"
+      render={[Function]}
+    />
+    <Route
+      exact={true}
+      path="/companies/:handle"
+      render={[Function]}
+    />
+    <Route
+      exact={true}
+      path="/jobs"
+      render={[Function]}
+    />
+    <Route
+      exact={true}
+      path="/profile"
+      render={[Function]}
+    />
+    <Redirect
+      to="/"
+    />
+  </Switch>
+</div>
+`;

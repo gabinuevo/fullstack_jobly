@@ -1,0 +1,27 @@
+.JobCard, 
+.JobCard-link {
+  width: 600px;
+  margin: 1.5em auto;
+  position: relative;
+}
+
+.JobCard {
+  border: solid 1px gainsboro;
+  padding: 1em;
+  text-align: left;
+}
+
+.JobCard:hover {
+  box-shadow: 0px 0px 3px gainsboro;
+}
+
+.JobCard button {
+  position: absolute;
+  margin: 2em;
+  bottom: 1em;
+  right: 0;
+}
+
+.JobCard-text {
+    display: inline-block;
+  }
