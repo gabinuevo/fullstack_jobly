@@ -4,6 +4,7 @@ import Companies from './Companies';
 import Company from './Company';
 import Jobs from './Jobs';
 import Profile from './Profile';
+import MyJobs from './MyJobs';
 
 
 // Routes for loggedin users
@@ -46,6 +47,15 @@ class PrivateRoutes extends Component {
 						exact // see all jobs
 						path="/jobs"
 						render={() => <Jobs
+							currJobs={this.props.currUser.jobs}
+							triggerApply={this.props.triggerApply}
+						/>}
+					/>
+
+					<Route
+						exact // see applied jobs
+						path="/my-jobs"
+						render={() => <MyJobs
 							currJobs={this.props.currUser.jobs}
 							triggerApply={this.props.triggerApply}
 						/>}

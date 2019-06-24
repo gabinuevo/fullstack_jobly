@@ -15,7 +15,8 @@ class NavBar extends Component {
 				{ this.props.currUser
 					? <section>
 						<NavLink to="/companies">Companies</NavLink>
-						<NavLink exact to="/jobs">Jobs</NavLink>
+						<NavLink exact to="/jobs">All Jobs</NavLink>
+						<NavLink exact to="/my-jobs">My Jobs</NavLink>
 						<NavLink exact to="/profile">Edit Profile</NavLink>
 						<a onClick={ this.props.triggerLogout } href="/">Log Out</a>
 					</section>

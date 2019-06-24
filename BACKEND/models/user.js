@@ -55,10 +55,11 @@ class User {
   static async loginUser(username, password) {
     try {
       const dbPW = await db.query(`SELECT password FROM users WHERE username=$1`, [username])
-
       const response = bcrypt.compareSync(password, dbPW.rows[0].password);
       if (response) {
         return await this.getOneUser(username);
+      } else {
+        throw { status: UNAUTHORIZED, message: "Invalid Credentials" };
       }
     } catch (err) {
       throw { status: UNAUTHORIZED, message: "Invalid Credentials" };
@@ -68,21 +69,23 @@ class User {
   /** Get all User data using User's username. Returns User
    * object or User not found error. */
   static async getOneUser(username) {
+
     let result = await db.query(
       `SELECT username, first_name, last_name, email, photo_url, is_admin
             FROM users WHERE username=$1`,
       [username]);
+
     result = result.rows[0];
     if (!result) {
       throw { status: NOT_FOUND, message: "user not found" }
     } else {
-
       const userJobsRes = await db.query(
-        `SELECT j.id, j.title, j.company_handle, a.state 
+        `SELECT j.id, j.title, j.company_handle, j.salary, j.equity, a.state 
            FROM applications AS a
              JOIN jobs AS j ON j.id = a.job_id
            WHERE a.username = $1`,
         [username]);
+
       result.jobs = userJobsRes.rows;
 
       return result;
