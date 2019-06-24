@@ -20,8 +20,17 @@
   margin: 2em;
   bottom: 1em;
   right: 0;
+  text-align: center;
 }
 
 .JobCard-text {
-    display: inline-block;
-  }
+  display: inline-block;
+}
+
+.JobCard-Applied-Button {
+  background-color: rgb(61, 61, 61);
+  text-align: center;
+  color: white;
+  border: none;
+  outline: none;
+}

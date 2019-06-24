@@ -69,14 +69,6 @@ button:hover {
   background-color: rgb(2, 85, 129);
 }
 
-button:disabled,
-button[disabled]{
-  background-color: rgba(161, 218, 213, 0.425);
-  color: white;
-  border: none;
-  outline: none;
-}
-
 button:active {
   background-color: rgba(161, 218, 213, 0.425);
   box-shadow: 0 1px rgb(155, 154, 154);

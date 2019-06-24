@@ -103,7 +103,7 @@ router.delete("/:id", authenticateJWT, ensureLoggedIn, ensureAdmin, async functi
 
 router.post("/:id/apply", authenticateJWT, ensureLoggedIn, async function (req, res, next) {
 	try {
-		const state = req.body.state || "applied";
+		const state = req.body.state;
 		await Job.sendApplication(req.user.username, req.params.id, state);
 		return res.status(201).json({ message: state });
 	}

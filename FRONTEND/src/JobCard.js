@@ -13,8 +13,8 @@ class JobCard extends Component {
 		// check if already applied (in currUser.jobs )
 		const { title, salary, equity, applied } = this.props;
 		const button = (applied
-			? <button onClick={this.props.triggerApply} disabled>APPLIED</button>
-			: <button onClick={this.props.triggerApply}>APPLY</button>
+			? <button onClick={this.props.triggerApply} className="JobCard-Applied-Button">APPLIED</button>
+			: <button onClick={this.props.triggerApply} className="JobCard-Apply-Button">APPLY</button>
 		);
 
 		return (

@@ -88,7 +88,7 @@ class Job {
 	static async sendApplication(username, jobId, applied = "applied") {
 		try {
 			if (!applied) {
-				await db.query(`DELETE FROM applications WHERE username=$1 AND job_id=$2`, [username, jobId])
+				await db.query(`DELETE FROM applications WHERE job_id=$1 AND username=$2`, [jobId, username])
 			} else {
 				const result = await db.query(`INSERT INTO applications (username, job_id, state) VALUES ($1, $2, $3) RETURNING username, job_id, state`, [username, jobId, applied]);
 				return result.rows;
