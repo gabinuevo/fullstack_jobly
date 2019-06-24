@@ -107,7 +107,7 @@ class App extends Component {
   async handleApply(id, state) {
     try {
       let applied = state ? false : "applied"
-      debugger;
+      // debugger;
       await JoblyApi.getApplicationMsg(id, applied);
       // await this.updateCurrUser(); TODO
     } catch (err) {

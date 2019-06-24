@@ -87,13 +87,12 @@ class Job {
 
 	static async sendApplication(username, jobId, applied = "applied") {
 		try {
-			let result;
 			if (!applied) {
-				// TODO: Add feature to remove applications.
+				await db.query(`DELETE FROM applications WHERE username=$1 AND job_id=$2`, [username, jobId])
 			} else {
-				result = await db.query(`INSERT INTO applications (username, job_id, state) VALUES ($1, $2, $3) RETURNING username, job_id, state`, [username, jobId, applied]);
+				const result = await db.query(`INSERT INTO applications (username, job_id, state) VALUES ($1, $2, $3) RETURNING username, job_id, state`, [username, jobId, applied]);
+				return result.rows;
 			}
-			return result.rows;
 		} catch (e) {
 			console.log(e.message);
 		}
