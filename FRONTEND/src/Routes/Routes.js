@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Home from './Components/Home';
-import Login from './Containers/Login'
+import Home from '../Components/Home';
+import Login from '../Containers/Login'
 import PrivateRoutes from './PrivateRoutes';
 
 

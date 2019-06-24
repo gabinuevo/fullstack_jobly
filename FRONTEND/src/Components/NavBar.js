@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import logo from '../logo-white.png'
+import logo from './logo-white.png'
 import '../Styles/NavBar.css'
 
 /**For rendering links to all main pages 

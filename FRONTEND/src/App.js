@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { decode } from 'jsonwebtoken';
 import { withRouter } from 'react-router-dom';
 import JoblyApi from './JoblyAPI';
-import Routes from './Routes'
+import Routes from './Routes/Routes'
 import NavBar from './Components/NavBar'
 import './Styles/App.css';
 
