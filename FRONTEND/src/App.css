@@ -37,7 +37,6 @@ input:focus + .input-arrow {
   left: 11rem;
   bottom: 2.8rem;
   height: 1rem;
-  display: inline;
   opacity: 0;
   transition: all 0.4s;
   transform: translateX(0);

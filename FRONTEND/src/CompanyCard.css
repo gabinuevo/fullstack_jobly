@@ -1,6 +1,6 @@
 .CompanyCard, 
 .CompanyCard-link {
-  width: 600px;
+  min-width: 400px;
   margin: 0em auto;
 }
 
@@ -11,11 +11,21 @@
 }
 
 .CompanyCard:hover {
-  box-shadow: 0px 0px 3px turquoise;
+  box-shadow: 0px 0px 3px gainsboro;
 }
 
 .CompanyCard-logo {
   float: right;
   margin: 0.5em;
+}
+
+.CompanyCard-name {
+  font-weight: 500;
+}
+
+.CompanyCard-desc {
+  font-weight: 200;
+  font-size: 0.8em;
+  font-style: italic;
 }
 

@@ -26,7 +26,7 @@ class CompanyCard extends Component {
           </p>
 
           <p className="CompanyCard-desc">
-            {description}
+            {description.substring(0, 40)}...
           </p>
 
         </div>

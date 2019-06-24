@@ -20,7 +20,7 @@ function makeGetQuery(reqObj) {
     let searchStr = "";
     let searchParams = [];
 
-    let query = `SELECT handle, name FROM companies `;
+    let query = `SELECT handle, name, description FROM companies `;
 
     if (!reqObj) {
         return query;
