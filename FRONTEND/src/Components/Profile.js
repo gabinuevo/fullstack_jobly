@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import JoblyApi from './JoblyAPI';
-import './Styles/Profile.css';
+import JoblyApi from '../JoblyAPI';
+import '../Styles/Profile.css';
 
 const DEFAULT_PICTURE = "https://png.pngtree.com/svg/20161027/631929649c.svg"
 

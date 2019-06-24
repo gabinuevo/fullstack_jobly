@@ -3,8 +3,8 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Companies from './Companies';
 import Company from './Company';
 import Jobs from './Jobs';
-import Profile from './Profile';
-import MyJobs from './MyJobs';
+import Profile from './Components/Profile';
+import MyJobs from './Components/MyJobs';
 
 
 // Routes for loggedin users

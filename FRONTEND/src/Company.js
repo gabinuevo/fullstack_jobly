@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import JoblyApi from './JoblyAPI';
-import JobCard from './JobCard';
+import JobCard from './Components/JobCard';
 
 import './Styles/Company.css';
 

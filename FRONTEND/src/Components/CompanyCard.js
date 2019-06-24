@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './Styles/CompanyCard.css';
+import '../Styles/CompanyCard.css';
 /**
  * Recieves ONE company data from Companies
  * Renders a card with company data
