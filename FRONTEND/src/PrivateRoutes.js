@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Companies from './Companies';
-import Company from './Company';
-import Jobs from './Jobs';
+import Companies from './Containers/Companies';
+import Company from './Containers/Company';
+import Jobs from './Containers/Jobs';
 import Profile from './Components/Profile';
 import MyJobs from './Components/MyJobs';
 

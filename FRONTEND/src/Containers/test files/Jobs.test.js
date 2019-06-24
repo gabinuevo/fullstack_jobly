@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { mount, shallow } from "enzyme";
 import toJson from "enzyme-to-json";
 import { MemoryRouter } from 'react-router-dom';
-import Jobs from './Jobs';
+import Jobs from '../Jobs';
 
 
 // full mount

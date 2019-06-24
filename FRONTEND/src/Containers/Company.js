@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import JoblyApi from './JoblyAPI';
-import JobCard from './Components/JobCard';
+import JoblyApi from '../JoblyAPI';
+import JobCard from '../Components/JobCard';
 
-import './Styles/Company.css';
-
+import '../Styles/Company.css';
+// TODO: Convert to component?
 /**
  * Recieves ONE company data from API request
  * Renders ONE company details

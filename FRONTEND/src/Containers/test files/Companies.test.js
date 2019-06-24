@@ -3,21 +3,21 @@ import ReactDOM from 'react-dom';
 import { mount, shallow } from "enzyme";
 import toJson from "enzyme-to-json";
 import { MemoryRouter } from 'react-router-dom';
-import Login from './Login';
+import Companies from '../Companies';
 
 
 // full mount
 it('mounts without crashing', function() {
   mount(
     <MemoryRouter>
-      <Login />
+      <Companies />
     </MemoryRouter>
   );
 });
 
 // snapshot test
 it('matches snapshot', function() {
-  let wrapper = shallow(<Login />);
+  let wrapper = shallow(<Companies />);
   let serialized = toJson(wrapper);
   expect(serialized).toMatchSnapshot();
 });

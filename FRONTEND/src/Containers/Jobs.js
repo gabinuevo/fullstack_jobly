@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import JoblyApi from './JoblyAPI';
+import JoblyApi from '../JoblyAPI';
 import Search from './Search';
-import JobCard from './Components/JobCard';
+import JobCard from '../Components/JobCard';
 
 /**
  * Recieves a list of job data from API request & search keyword from Search

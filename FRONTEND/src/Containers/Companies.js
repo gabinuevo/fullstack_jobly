@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import JoblyApi from './JoblyAPI';
+import JoblyApi from '../JoblyAPI';
 import Search from './Search';
-import CompanyCard from './Components/CompanyCard';
+import CompanyCard from '../Components/CompanyCard';
 
 /**
  * Recieves a list of company data from API request & search keyword from Search

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Styles/Search.css'
+import '../Styles/Search.css'
 
 /**
  * Recieves triggerUpdateQuery from Companies
