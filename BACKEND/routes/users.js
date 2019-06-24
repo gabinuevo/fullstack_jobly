@@ -85,7 +85,7 @@ router.post("/login", async function (req, res, next) {
  * returns an the newly updated usrr
 * => {user: userData}
 */
-router.patch("/:username", authenticateJWT, ensureLoggedIn, ensureCorrectUser, async function (req, res, next) {
+router.patch("/:username", authenticateJWT, ensureLoggedIn, async function (req, res, next) {
   try {
 
     const validation = validate(req.body, userSchemaPatch);

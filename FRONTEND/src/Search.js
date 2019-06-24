@@ -32,6 +32,10 @@ class Search extends Component {
       <div className="Search">
         <form onSubmit={ this.handleSubmit }>
           <input onChange={ this.handleChange } name="query" value={ this.state.query } placeholder="Enter search term..." />
+          <svg viewBox="0 0 20 20" className="input-arrow">
+            <path d="M20 0 L10 10 L20 20">
+            </path>
+          </svg>
           <button>Submit</button>
         </form>
       </div>

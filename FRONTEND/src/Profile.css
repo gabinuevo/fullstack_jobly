@@ -1,0 +1,8 @@
+.Profile-Image {
+  max-height: 25vh;
+  position: absolute;
+  bottom: 57vh;
+  right: 15vw;
+  border-radius: 50%;
+  border: 2px solid black;
+}
