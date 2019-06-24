@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import JoblyApi from './JoblyAPI';
 import JobCard from './JobCard';
 
-import './Company.css';
+import './Styles/Company.css';
 
 /**
  * Recieves ONE company data from API request

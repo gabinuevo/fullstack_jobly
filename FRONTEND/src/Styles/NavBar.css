@@ -9,6 +9,13 @@ nav a.active {
     text-align: right;
 }
 
+.NavBar img {
+    height: 1.8em;
+    padding: 0.65em 0.8em;
+    left: 0em;
+    position: absolute;
+}
+
 a {
     display: inline-block;
     position: relative;
@@ -21,6 +28,6 @@ section {
 }
 
 .NavBar-logo {
-    left: 1em;
+    left: 2.5em;
     position: absolute;
 }

@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import JoblyApi from './JoblyAPI';
 import Routes from './Routes'
 import NavBar from './NavBar'
-import './App.css';
+import './Styles/App.css';
 
 /**
  * Renders NavBar and Routes

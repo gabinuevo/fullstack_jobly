@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import JoblyApi from './JoblyAPI';
-import './Profile.css';
+import './Styles/Profile.css';
 
 const DEFAULT_PICTURE = "https://png.pngtree.com/svg/20161027/631929649c.svg"
 
@@ -64,7 +64,6 @@ class Profile extends Component {
     return (
       <div className="Profile">
         <h1>Edit Profile for {this.props.username}</h1>
-        <img className="Profile-Image" src={this.props.photo_url || DEFAULT_PICTURE} alt="profile pic"></img>
         <form className="Profile" onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="first_name">First name</label>
@@ -103,7 +102,7 @@ class Profile extends Component {
             <button>Submit</button>
           </div>
           <b> {alert} </b>
-
+          <img className="Profile-Image" src={this.props.photo_url || DEFAULT_PICTURE} alt="profile pic"></img>
         </form>
 
       </div>

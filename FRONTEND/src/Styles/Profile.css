@@ -1,8 +1,8 @@
 .Profile-Image {
-  max-height: 30vh;
-  position: absolute;
-  bottom: 50vh;
-  right: 20vw;
+  max-height: 8vw;
+  position: relative;
+  bottom: 60vh;
+  right: 18vw;
   border-radius: 50%;
   border: 2px dotted rgb(88, 88, 88);
 }

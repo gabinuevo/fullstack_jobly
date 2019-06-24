@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom';
-import './NavBar.css'
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import logo from './logo-white.png'
+import './Styles/NavBar.css'
 
 /**For rendering links to all main pages 
  * everywhere in the app
@@ -9,16 +10,17 @@ import './NavBar.css'
 class NavBar extends Component {
 
 	render() {
-		return ( 
+		return (
 			<nav className="NavBar" >
-				<NavLink className="NavBar-logo" exact to="/">Jobly</NavLink> 
-				{ this.props.currUser
+				<img src={logo} alt="logo"></img>
+				<NavLink className="NavBar-logo" exact to="/">Jobly</NavLink>
+				{this.props.currUser
 					? <section>
 						<NavLink to="/companies">Companies</NavLink>
 						<NavLink exact to="/jobs">All Jobs</NavLink>
 						<NavLink exact to="/my-jobs">My Jobs</NavLink>
 						<NavLink exact to="/profile">Edit Profile</NavLink>
-						<a onClick={ this.props.triggerLogout } href="/">Log Out</a>
+						<a onClick={this.props.triggerLogout} href="/">Log Out</a>
 					</section>
 					: <section>
 						<NavLink exact to="/login">Log In</NavLink>
