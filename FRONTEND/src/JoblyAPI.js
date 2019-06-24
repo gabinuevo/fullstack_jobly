@@ -8,19 +8,19 @@ class JoblyApi {
     paramsOrData._token = localStorage.getItem("_token") || null;
 
     console.log("API Call:", endpoint, paramsOrData, verb);
-    
     try {
-      let response =  (await axios({
+      let response = (await axios({
         method: verb,
-        url: `${BASE_URL}${endpoint}`, 
-        [verb === "get" ? "params" : "data"]: paramsOrData})).data;
-        // axios sends query string data via the "params" key,
-        // and request body data via the "data" key,
-        // so the key we need depends on the HTTP verb
-        console.log("THIS IS THE RESPONSE", response)
+        url: `${BASE_URL}${endpoint}`,
+        [verb === "get" ? "params" : "data"]: paramsOrData
+      })).data;
+      // axios sends query string data via the "params" key,
+      // and request body data via the "data" key,
+      // so the key we need depends on the HTTP verb
+      console.log("THIS IS THE RESPONSE", response)
       return response
     }
-    catch(err) {
+    catch (err) {
       console.error("API Error:", err.response);
       let message = err.response.data.message;
       throw Array.isArray(message) ? message : [message];
@@ -39,16 +39,22 @@ class JoblyApi {
     return res.company;
   }
 
-   /** gets all jobs that match search query*/
+  /** gets all jobs that match search query*/
   static async getJobs(params) {
     let res = await this.request(`jobs/`, params);
     return res.jobs;
   }
 
+  // apply for job and get message
+  static async getApplicationMsg(id, state = "applied") {
+    let res = await this.request(`jobs/${id}/apply`, { state }, "post");
+    return res.message;
+  }
+
   // login makes post request to /auth/login with username and password
   static async getTokenLogin(data) {
     let res = await this.request(`users/login`, data, "post");
-    return {token: res.token, user: res.user};
+    return { token: res.token, user: res.user };
   }
 
   // login makes post request to /auth/login with username and password
@@ -65,16 +71,10 @@ class JoblyApi {
 
   // update one user info
   static async updateUserInfo(username, data) {
-    // debugger;
     let res = await this.request(`users/${username}`, data, "patch");
     return res.user;
   }
 
-  // apply for job and get message
-  static async getApplicationMsg(id) {
-    let res = await this.request(`jobs/${id}/apply`, {}, "post");
-    return res.message;
-  }
 }
 
 export default JoblyApi;

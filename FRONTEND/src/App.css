@@ -63,6 +63,10 @@ button {
   outline: none;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 button:disabled,
 button[disabled]{
   background-color: rgba(161, 218, 213, 0.425);

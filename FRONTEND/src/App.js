@@ -104,10 +104,12 @@ class App extends Component {
 
   // Sends note to server indicating that a job has been applied to. 
   // Updates currUser in state.
-  async handleApply(id) {
+  async handleApply(id, state) {
     try {
-      await JoblyApi.getApplicationMsg(id);
-      await this.updateCurrUser();
+      let applied = state ? false : "applied"
+      debugger;
+      await JoblyApi.getApplicationMsg(id, applied);
+      // await this.updateCurrUser(); TODO
     } catch (err) {
       this.setState({
         error: err

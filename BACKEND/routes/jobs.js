@@ -10,19 +10,19 @@ const router = new Router();
 
 /** Post a new job, return error if data is invalid. */
 router.post("/", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (req, res, next) {
-    try {
-        const validation = validate(req.body, jobSchemaNew);
+	try {
+		const validation = validate(req.body, jobSchemaNew);
 
-        if (!validation.valid) {
-            const errors = validation.errors.map(e => e.stack);
-            throw new ExpressError (errors, BAD_REQUEST);
-        }
-        const job = await Job.addJob(req.body);
+		if (!validation.valid) {
+			const errors = validation.errors.map(e => e.stack);
+			throw new ExpressError(errors, BAD_REQUEST);
+		}
+		const job = await Job.addJob(req.body);
 
-        return res.status(201).json({ job });
-    } catch (err) {
-        return next(err);
-    }
+		return res.status(201).json({ job });
+	} catch (err) {
+		return next(err);
+	}
 });
 
 /** GET /  - get full list of jobs or
@@ -30,34 +30,34 @@ router.post("/", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (r
 * => {jobs: [{title, company_handle}, ...]}
 */
 router.get("/", authenticateJWT, ensureLoggedIn, async function (req, res, next) {
-    try {
-        const { search, min_salary, min_equity } = req.query;
+	try {
+		const { search, min_salary, min_equity } = req.query;
 
-        const result = await Job.searchByTerms({ search, min_salary, min_equity });
-        return res.json({jobs: result});
-        
-    } catch (err) {
-        return next(err);
-    }
+		const result = await Job.searchByTerms({ search, min_salary, min_equity });
+		return res.json({ jobs: result });
+
+	} catch (err) {
+		return next(err);
+	}
 });
 
 /** GET /:id  - get details of 1 job w/ id in params
 * => {job:jobData}
 */
 router.get("/:id", authenticateJWT, ensureLoggedIn, async function (req, res, next) {
-    try {
-        const jobID = req.params.id;
+	try {
+		const jobID = req.params.id;
 
-        const result = await Job.getDetailsofOneJob(jobID);
+		const result = await Job.getDetailsofOneJob(jobID);
 
-        if (result === undefined) {
-            throw new ExpressError('Job not found', NOT_FOUND)
-        } else {
-            return res.json({job: result});
-        }
-    } catch (err) {
-        return next(err);
-    }  
+		if (result === undefined) {
+			throw new ExpressError('Job not found', NOT_FOUND)
+		} else {
+			return res.json({ job: result });
+		}
+	} catch (err) {
+		return next(err);
+	}
 });
 
 /** PATCH /:id  - updates a job by its ID 
@@ -65,38 +65,52 @@ router.get("/:id", authenticateJWT, ensureLoggedIn, async function (req, res, ne
 * => {job:jobData}
 */
 router.patch("/:id", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (req, res, next) {
-    try {
-        const jobID = req.params.id;
+	try {
+		const jobID = req.params.id;
 
-        const result = await Job.updateOneJob('jobs', req.body, 'id', jobID);
+		const result = await Job.updateOneJob('jobs', req.body, 'id', jobID);
 
-        if (result === undefined) {
-            throw new ExpressError('Job not found', NOT_FOUND)
-        } else {
-            return res.json({job: result});
-        }
-    } catch (err) {
-        return next(err);
-    }
+		if (result === undefined) {
+			throw new ExpressError('Job not found', NOT_FOUND)
+		} else {
+			return res.json({ job: result });
+		}
+	} catch (err) {
+		return next(err);
+	}
 });
 
 /** DELETE /:id  - delete a job by its ID 
  * returns message of deletes
 * => { message: "Job deleted." } */
 router.delete("/:id", authenticateJWT, ensureLoggedIn, ensureAdmin, async function (req, res, next) {
-    try {
-        const jobID = req.params.id;
+	try {
+		const jobID = req.params.id;
 
-        const result = await Job.deleteOneJob(jobID);
+		const result = await Job.deleteOneJob(jobID);
 
-        if (result.rowCount === 0) {
-            throw new ExpressError('Job not found', NOT_FOUND)
-        } else {
-            return res.json({message: 'Job deleted.'});
-        }
-    } catch (err) {
-        return next(err);
-    }
+		if (result.rowCount === 0) {
+			throw new ExpressError('Job not found', NOT_FOUND)
+		} else {
+			return res.json({ message: 'Job deleted.' });
+		}
+	} catch (err) {
+		return next(err);
+	}
+});
+
+/** POST /[id]/apply  {state} => {message: state} */
+
+router.post("/:id/apply", authenticateJWT, ensureLoggedIn, async function (req, res, next) {
+	try {
+		const state = req.body.state || "applied";
+		await Job.sendApplication(req.user.username, req.params.id, state);
+		return res.status(201).json({ message: state });
+	}
+
+	catch (err) {
+		return next(err);
+	}
 });
 
 module.exports = router;

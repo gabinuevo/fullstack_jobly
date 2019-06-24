@@ -64,7 +64,7 @@ class Profile extends Component {
     return (
       <div className="Profile">
         <h1>Edit Profile for {this.props.username}</h1>
-        <img className="Profile-Image" src={this.props.photo_url || DEFAULT_PICTURE} alt="profile picture"></img>
+        <img className="Profile-Image" src={this.props.photo_url || DEFAULT_PICTURE} alt="profile pic"></img>
         <form className="Profile" onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="first_name">First name</label>
