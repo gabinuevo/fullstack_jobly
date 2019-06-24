@@ -1,0 +1,15 @@
+.Company-desc {
+  font-style: italic;
+}
+
+.Company h4 {
+  text-decoration: underline;
+  position: relative;
+}
+
+.Company-Openings {
+  position: relative;
+  top: 1em;
+  padding-top: 2em;
+  border-top: 1px dotted gainsboro;
+}
