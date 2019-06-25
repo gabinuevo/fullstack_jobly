@@ -1,8 +1,7 @@
 import {
-  GET_ALL_JOBS,
-  // ADD_JOB,
-  // PATCH_JOB,
-  // DELETE_JOB,
+  GET_COMPANIES,
+  // ADD_COMPANY,
+  // DELETE_COMPANY,
 } from '../Actions/ActionTypes';
 
 
@@ -13,8 +12,8 @@ const INITIAL_STATE = [];
  */
 export default function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case GET_ALL_JOBS:
-      return action.payload.jobs;
+    case GET_COMPANIES:
+      return action.payload.companies;
     default:
       return state;
   }

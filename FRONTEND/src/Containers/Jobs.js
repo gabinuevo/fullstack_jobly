@@ -85,13 +85,13 @@ class Jobs extends Component {
 
 function mapStateToProps(reduxState) {
   return {
-    jobs: reduxState.jobs.allJobs,
+    jobs: reduxState.jobs,
     appliedJobs: reduxState.currUser.jobs,
   };
 }
 
 const mapDispatchToProps = {
-  getAllJobs
+  getAllJobs,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jobs);
