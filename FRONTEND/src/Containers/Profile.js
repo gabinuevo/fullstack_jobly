@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import JoblyApi from '../JoblyAPI';
+import { connect } from 'react-redux';
+
+import { updateExistingUser } from '../Actions/UserActions';
 import '../Styles/Profile.css';
 
 const DEFAULT_PICTURE = "https://png.pngtree.com/svg/20161027/631929649c.svg"
@@ -38,7 +40,7 @@ class Profile extends Component {
         delete patchData.photo_url;
       }
 
-      await JoblyApi.updateUserInfo(this.props.username, patchData);
+      await this.props.updateExistingUser(this.props.username, patchData);
 
       this.setState({ error: null, alert: "User updated successfully!" }, this.hideAlert)
 
@@ -110,4 +112,11 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+function mapStateToProps(reduxState) {
+  return {};
+}
+const mapDispatchToProps = {
+  updateExistingUser
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

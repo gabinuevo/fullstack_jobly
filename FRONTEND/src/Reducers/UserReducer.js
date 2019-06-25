@@ -2,14 +2,13 @@ import {
   POST_LOGIN,
   CHANGE_JOB_APP_STATUS,
   // POST_REGISTER,
-  // POST_PROFILE_UPDATE,
+  PATCH_PROFILE_UPDATE,
   // SHOW_ERR,
 } from '../Actions/ActionTypes';
 
 
 const INITIAL_STATE = null;
 
-// 
 
 /**
  * Reducer for all actions
@@ -28,6 +27,10 @@ export default function rootReducer(state = INITIAL_STATE, action) {
         jobs.push(job);
       }
       return { ...state, jobs };
+
+    case PATCH_PROFILE_UPDATE:
+      const currUser = action.payload.newInfo;
+      return { ...state, ...currUser };
     default:
       return state;
   }

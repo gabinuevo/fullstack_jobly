@@ -4,9 +4,7 @@
   "$id": "http://example.com/root.json",
   "type": "object",
   "title": "The Root Schema",
-  "required": [
-
-  ],
+  "required": [],
   "properties": {
     "username": {
       "$id": "#/properties/username",
@@ -58,7 +56,7 @@
       "examples": [
         "email"
       ],
-      "pattern": "^[a-zA-Z._-]+@([a-zA-z.-])+com$"
+      "pattern": "^[a-zA-Z0-9._-]+@([a-zA-z.-])+com$"
     },
     "photo_url": {
       "$id": "#/properties/photo_url",

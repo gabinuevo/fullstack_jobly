@@ -1,7 +1,7 @@
 import {
   POST_LOGIN,
   POST_REGISTER,
-  // POST_PROFILE_UPDATE,
+  PATCH_PROFILE_UPDATE,
   SHOW_ERR,
 } from './ActionTypes';
 
@@ -57,6 +57,25 @@ function madeUser(newUser) {
   return {
     type: POST_REGISTER,
     payload: { newUser }
+  }
+}
+
+// sends new user info to backend, sends new user info to store
+export function updateExistingUser(username, data) {
+  return async function (dispatch) {
+    try {
+      await JoblyApi.updateUserInfo(username,data);
+      dispatch(updatedUser(data));
+    } catch (err) {
+      dispatch(showErr(err.message));
+    }
+  }
+}
+
+function updatedUser(newInfo) {
+  return {
+    type: PATCH_PROFILE_UPDATE,
+    payload: { newInfo }
   }
 }
 
