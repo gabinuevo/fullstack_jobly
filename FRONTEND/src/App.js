@@ -73,7 +73,6 @@ class App extends Component {
   async handleRegister(input) {
     try {
       await this.props.getUserInfoViaRegister(input);
-      // await this.updateCurrUser(token);
       this.props.history.push("/jobs");
     } catch (err) {
       this.setState({
@@ -85,8 +84,12 @@ class App extends Component {
   // removes token from local storage, updates currUser, 
   // and re-routes user to homepage.
   handleLogout() {
-    localStorage.removeItem("_token");
-    this.props.history.push("/login");
+    try {
+      localStorage.removeItem("_token");
+      this.props.history.push("/login");
+    } catch (e) {
+      console.log("Goodbye!")
+    }
   }
 
   // Sends note to server indicating that a job has been applied to. 
@@ -95,7 +98,6 @@ class App extends Component {
     try {
       let applied = state ? false : "applied"
       await this.props.postJobApp(id, applied, jobInfo);
-      // await this.updateCurrUser(); TODO
     } catch (err) {
       this.setState({
         error: err

@@ -1,7 +1,7 @@
 import {
   POST_LOGIN,
   CHANGE_JOB_APP_STATUS,
-  // POST_REGISTER,
+  POST_REGISTER,
   PATCH_PROFILE_UPDATE,
   // SHOW_ERR,
 } from '../Actions/ActionTypes';
@@ -17,6 +17,9 @@ export default function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case POST_LOGIN:
       return { ...action.payload.currUser };
+
+    case POST_REGISTER:
+      return action.payload.newUser;
 
     case CHANGE_JOB_APP_STATUS:
       const job = action.payload.allJobInfo;

@@ -43,10 +43,11 @@ function gotUser(currUser) {
 export function getUserInfoViaRegister(inputObj) {
   return async function (dispatch) {
     try {
-      const { token } = await JoblyApi.getTokenRegister(inputObj);
+      const token = await JoblyApi.getTokenRegister(inputObj);
       localStorage.setItem("_token", token);
-      inputObj.user.jobs = []
-      dispatch(madeUser(inputObj));
+      const {password, _token, ...user} = inputObj;
+      user.jobs = []
+      dispatch(madeUser(user));
     } catch (err) {
       dispatch(showErr(err.message));
     }
@@ -54,6 +55,7 @@ export function getUserInfoViaRegister(inputObj) {
 }
 
 function madeUser(newUser) {
+  debugger
   return {
     type: POST_REGISTER,
     payload: { newUser }

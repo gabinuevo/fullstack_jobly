@@ -17,7 +17,12 @@ class PrivateRoutes extends Component {
 	}
 
 	render() {
-		const { username,
+		//redirect user to login if not logged in
+		if (!this.props.currUser) {
+			return <Redirect to="/" />;
+		}
+
+		let { username,
 			first_name,
 			last_name,
 			email,
@@ -26,14 +31,11 @@ class PrivateRoutes extends Component {
 		} = this.props.currUser
 
 		const { triggerApply } = this.props;
-		
+
 		return (
 			<div className="PrivateRoutes" >
 
 				<Switch>
-
-					{!this.props.currUser && //redirect user to login if not logged in
-						<Redirect to="/login" />}
 
 					<Route
 						exact // see all companies
