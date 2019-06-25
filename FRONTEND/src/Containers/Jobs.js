@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getAllJobs } from '../Actions/JobActions';
-// import JoblyApi from '../JoblyAPI';
 import Search from './Search';
 import JobCard from '../Components/JobCard';
 
@@ -86,7 +85,10 @@ class Jobs extends Component {
 }
 
 function mapStateToProps(reduxState) {
-  return { jobs: reduxState.jobs.allJobs };
+  return { 
+    jobs: reduxState.jobs.allJobs,
+    appliedJobs: reduxState.jobs.appliedJobs,
+  };
 }
 
 const mapDispatchToProps = {

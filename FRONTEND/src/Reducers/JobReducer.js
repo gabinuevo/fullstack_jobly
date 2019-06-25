@@ -14,8 +14,7 @@ const INITIAL_STATE = { allJobs: [] };
 export default function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case GET_ALL_JOBS:
-      var test = { ...state, allJobs: [...action.payload.jobs] };
-      return test
+      return { ...state, allJobs: [...action.payload.jobs] };
     default:
       return state;
   }
