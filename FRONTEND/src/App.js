@@ -25,14 +25,18 @@ class App extends Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleApply = this.handleApply.bind(this);
+    this.updateCurrUser = this.updateCurrUser.bind(this);
   }
 
   // ensures currUser is updated prior to rendering page
   async componentDidMount() {
     let token = localStorage.getItem("_token")
-    debugger;
     try {
-      if (token && !this.props.currUser) {
+      if (!token) {
+        this.setState({
+          loading: false,
+        })
+      } else if (!this.props.currUser) {
         await this.updateCurrUser(token);
         this.props.history.push('/jobs')
       } else {
@@ -52,7 +56,7 @@ class App extends Component {
   async updateCurrUser(token) {
     // let token = localStorage.getItem("_token")
     try {
-      if (token && !this.props.currUser) {
+      if (!this.props.currUser) {
         let username = decode(token).username;
         debugger
         await this.props.getUserInfoViaToken(username);
@@ -100,11 +104,7 @@ class App extends Component {
   // and re-routes user to homepage.
   handleLogout() {
     localStorage.removeItem("_token");
-    this.setState({
-      loading: false,
-      currUser: null,
-    })
-    this.props.history.push("/");
+    this.props.history.push("/login");
   }
 
   // Sends note to server indicating that a job has been applied to. 
@@ -124,13 +124,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.props.currUser
-          ? (<>
-            <NavBar currUser={this.props.currUser} triggerLogout={this.handleLogout} />
-            <Routes currUser={this.props.currUser} triggerLogin={this.handleLogin} triggerRegister={this.handleRegister} triggerApply={this.handleApply} />
-          </>)
-          : <p>loading...</p>
-        }
+        {this.state.loading
+        ? <p>loading...</p>
+        : (<>
+          <NavBar currUser={this.props.currUser} triggerLogout={this.handleLogout} />
+          <Routes currUser={this.props.currUser} triggerLogin={this.handleLogin} triggerRegister={this.handleRegister} triggerApply={this.handleApply} />
+        </>)
+      }
 
       </div>
     );
