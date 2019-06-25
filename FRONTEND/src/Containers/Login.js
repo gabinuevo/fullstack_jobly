@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import '../Styles/Login.css';
+
 /**
  * Component that renders form to login 
  * or register based on assigned props

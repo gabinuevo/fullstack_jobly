@@ -16,7 +16,7 @@ class JoblyApi {
       // axios sends query string data via the "params" key,
       // and request body data via the "data" key,
       // so the key we need depends on the HTTP verb
-      console.log("THIS IS THE RESPONSE", response)
+      console.log("API RESPONSE: ", response)
       return response
     }
     catch (err) {

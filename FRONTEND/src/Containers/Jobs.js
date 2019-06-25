@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import JoblyApi from '../JoblyAPI';
+import { connect } from 'react-redux';
+
+import { getAllJobs } from '../Actions/JobActions';
+// import JoblyApi from '../JoblyAPI';
 import Search from './Search';
 import JobCard from '../Components/JobCard';
 
@@ -13,8 +16,6 @@ class Jobs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
-      jobData: [],
       error: null
     }
     this.updateQuery = this.updateQuery.bind(this)
@@ -23,11 +24,12 @@ class Jobs extends Component {
   // get job data from API
   async componentDidMount() {
     try {
-      const data = await JoblyApi.getJobs()
-      this.setState({
-        jobData: data,
-        loading: false
-      });
+      if (this.props.jobs.length === 0) {
+        await this.props.getAllJobs();
+        this.setState({
+          loading: false
+        });
+      }
     } catch (err) {
       this.setState({
         error: err
@@ -38,7 +40,7 @@ class Jobs extends Component {
   // updates query make another API req
   async updateQuery(query) {
     try {
-      const searchData = await JoblyApi.getJobs({ "search": query });
+      const searchData = await this.props.getAllJobs({ "search": query });
       this.setState({
         jobData: searchData,
       });
@@ -54,9 +56,9 @@ class Jobs extends Component {
     //  appliedJobs is a set of all jobs user has applied to
     let jobs;
     let appliedJobs;
-    if (!this.state.loading) {
-      appliedJobs = new Set(this.props.currJobs.map(job => job.id));
-      jobs = this.state.jobData.map(job =>
+    if (this.props.jobs && this.props.jobs.length > 0) {
+      appliedJobs = new Set(this.props.jobs.map(job => job.id));
+      jobs = this.props.jobs.map(job =>
         <JobCard
           title={job.title}
           salary={job.salary}
@@ -83,4 +85,12 @@ class Jobs extends Component {
   }
 }
 
-export default Jobs;
+function mapStateToProps(reduxState) {
+  return { jobs: reduxState.jobs.allJobs };
+}
+
+const mapDispatchToProps = {
+  getAllJobs
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Jobs);
