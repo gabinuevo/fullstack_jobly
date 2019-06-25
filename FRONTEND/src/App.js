@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { decode } from 'jsonwebtoken';
-import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import {
+  getUserInfoViaToken,
+  getUserInfoViaLogin,
+  getUserInfoViaRegister
+} from './Actions/UserActions';
 import JoblyApi from './JoblyAPI';
 import Routes from './Routes/Routes'
 import NavBar from './Components/NavBar'
@@ -14,7 +20,6 @@ class App extends Component {
     super(props);
     this.state = {
       loading: true,
-      currUser: null,
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
@@ -26,8 +31,10 @@ class App extends Component {
   async componentDidMount() {
     let token = localStorage.getItem("_token")
     try {
-      if (token && !this.state.currUser) {
-        await this.updateCurrUser();
+      if (token && !this.props.currUser) {
+        await this.updateCurrUser(token);
+
+        this.props.history.push('/jobs')
       }
     } catch (err) {
       this.setState({
@@ -41,37 +48,32 @@ class App extends Component {
 
   // helper function that decodes token to 
   // set user's username in state
-  async updateCurrUser() {
-    let currUser;
-    let token = localStorage.getItem("_token")
-    if (token && !this.state.currUser) {
-      let username = decode(token).username;
+  async updateCurrUser(token) {
+    try {
+      if (token && !this.props.currUser) {
+        let username = decode(token).username;
+        await this.props.getUserInfoViaToken(username);
+      }
+      this.setState({
+        error: null
+      });
 
-      currUser = await JoblyApi.getUserInfo(username);
-    } else {
-      currUser = null;
+    } catch (e) {
+      this.setState({
+        error: e.message,
+      });
     }
-
-    this.setState({
-      currUser,
-      error: null
-    });
   }
 
   // get token from API
   async handleLogin(input) {
     try {
       // get token and save to local storage
-      const {token, user} = await JoblyApi.getTokenLogin(input);
-      localStorage.setItem("_token", token);
-      this.setState({
-        error: null,
-        currUser: user,
-      });
+      await this.props.getUserInfoViaLogin(input);
       this.props.history.push("/jobs");
-    } catch (err) {
+    } catch (e) {
       this.setState({
-        error: err
+        error: e.message,
       });
     }
   }
@@ -80,9 +82,9 @@ class App extends Component {
   async handleRegister(input) {
     try {
       // get token and save to local storage
-      const token = await JoblyApi.getTokenRegister(input);
+      const token = await this.props.getUserInfoViaRegister(input);
       localStorage.setItem("_token", token);
-      await this.updateCurrUser();
+      await this.updateCurrUser(token);
       this.props.history.push("/jobs");
     } catch (err) {
       this.setState({
@@ -119,11 +121,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.state.loading
+        {!this.props.currUser
           ? <p>loading...</p>
           : (<>
-            <NavBar currUser={this.state.currUser} triggerLogout={this.handleLogout} />
-            <Routes currUser={this.state.currUser} triggerLogin={this.handleLogin} triggerRegister={this.handleRegister} triggerApply={this.handleApply} />
+            <NavBar currUser={this.props.currUser} triggerLogout={this.handleLogout} />
+            <Routes currUser={this.props.currUser} triggerLogin={this.handleLogin} triggerRegister={this.handleRegister} triggerApply={this.handleApply} />
           </>)
         }
 
@@ -132,4 +134,16 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+function mapStateToProps(reduxState) {
+  return {
+    currUser: reduxState.currUser,
+  };
+}
+
+const mapDispatchToProps = {
+  getUserInfoViaToken,
+  getUserInfoViaLogin,
+  getUserInfoViaRegister,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

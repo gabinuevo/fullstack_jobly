@@ -52,11 +52,10 @@ class Jobs extends Component {
 
 
   render() {
-    //  appliedJobs is a set of all jobs user has applied to
-    let jobs;
-    let appliedJobs;
+    //  appliedJobs = all jobs user has applied to
+    let { jobs, appliedJobs } = this.props;
     if (this.props.jobs && this.props.jobs.length > 0) {
-      appliedJobs = new Set(this.props.jobs.map(job => job.id));
+      appliedJobs = new Set(this.props.appliedJobs.map(job => job.id));
       jobs = this.props.jobs.map(job =>
         <JobCard
           title={job.title}
@@ -85,9 +84,9 @@ class Jobs extends Component {
 }
 
 function mapStateToProps(reduxState) {
-  return { 
+  return {
     jobs: reduxState.jobs.allJobs,
-    appliedJobs: reduxState.jobs.appliedJobs,
+    appliedJobs: reduxState.currUser.jobs,
   };
 }
 

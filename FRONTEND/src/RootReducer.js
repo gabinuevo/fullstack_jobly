@@ -5,11 +5,12 @@
 import { combineReducers } from 'redux';
 
 import jobs from './Reducers/JobReducer';
+import currUser from './Reducers/UserReducer';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
  */
 export default combineReducers({
-  jobs
-  // titles,
+  jobs,
+  currUser
 });
