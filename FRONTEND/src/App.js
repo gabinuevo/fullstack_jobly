@@ -7,6 +7,7 @@ import {
   getUserInfoViaLogin,
   getUserInfoViaRegister
 } from './Actions/UserActions';
+import { postJobApp } from './Actions/ApplicationActions';
 import JoblyApi from './JoblyAPI';
 import Routes from './Routes/Routes'
 import NavBar from './Components/NavBar'
@@ -71,10 +72,8 @@ class App extends Component {
   // handles registering new user. 
   async handleRegister(input) {
     try {
-      // get token and save to local storage
-      const token = await this.props.getUserInfoViaRegister(input);
-      localStorage.setItem("_token", token);
-      await this.updateCurrUser(token);
+      await this.props.getUserInfoViaRegister(input);
+      // await this.updateCurrUser(token);
       this.props.history.push("/jobs");
     } catch (err) {
       this.setState({
@@ -92,10 +91,10 @@ class App extends Component {
 
   // Sends note to server indicating that a job has been applied to. 
   // Updates currUser in state.
-  async handleApply(id, state) {
+  async handleApply(id, state, jobInfo) {
     try {
       let applied = state ? false : "applied"
-      await JoblyApi.getApplicationMsg(id, applied);
+      await this.props.postJobApp(id, applied, jobInfo);
       // await this.updateCurrUser(); TODO
     } catch (err) {
       this.setState({
@@ -130,6 +129,7 @@ const mapDispatchToProps = {
   getUserInfoViaToken,
   getUserInfoViaLogin,
   getUserInfoViaRegister,
+  postJobApp,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

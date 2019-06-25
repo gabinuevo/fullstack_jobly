@@ -4,6 +4,16 @@ import '../Styles/JobCard.css';
 /**Recieves ONE job data
  * Renders a card with job data*/
 class JobCard extends Component {
+	// constructor(props) {
+	// 	super(props);
+	// 	this.onClick = this.onClick.bind(this);
+	// }
+
+	// onClick(e) {
+	// 	e.preventDefault();
+		
+	// 	this.props.triggerApply(id, state, jobInfo)
+	// }
 
 	shouldComponentUpdate(nextProps) {
 		return nextProps.applied !== this.props.applied;
