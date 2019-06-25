@@ -25,7 +25,6 @@ class App extends Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleApply = this.handleApply.bind(this);
-    this.updateCurrUser = this.updateCurrUser.bind(this);
   }
 
   // ensures currUser is updated prior to rendering page
@@ -37,7 +36,11 @@ class App extends Component {
           loading: false,
         })
       } else if (!this.props.currUser) {
-        await this.updateCurrUser(token);
+        let username = decode(token).username;
+        await this.props.getUserInfoViaToken(username);
+        this.setState({
+          loading: false,
+        })
         this.props.history.push('/jobs')
       } else {
         this.setState({
@@ -51,26 +54,6 @@ class App extends Component {
     }
   }
 
-  // helper function that decodes token to 
-  // set user's username in state
-  async updateCurrUser(token) {
-    // let token = localStorage.getItem("_token")
-    try {
-      if (!this.props.currUser) {
-        let username = decode(token).username;
-        debugger
-        await this.props.getUserInfoViaToken(username);
-      }
-      this.setState({
-        error: null
-      });
-
-    } catch (e) {
-      this.setState({
-        error: e.message,
-      });
-    }
-  }
 
   // get token from API
   async handleLogin(input) {
@@ -125,12 +108,12 @@ class App extends Component {
     return (
       <div className="App">
         {this.state.loading
-        ? <p>loading...</p>
-        : (<>
-          <NavBar currUser={this.props.currUser} triggerLogout={this.handleLogout} />
-          <Routes currUser={this.props.currUser} triggerLogin={this.handleLogin} triggerRegister={this.handleRegister} triggerApply={this.handleApply} />
-        </>)
-      }
+          ? <p>loading...</p>
+          : (<>
+            <NavBar currUser={this.props.currUser} triggerLogout={this.handleLogout} />
+            <Routes currUser={this.props.currUser} triggerLogin={this.handleLogin} triggerRegister={this.handleRegister} triggerApply={this.handleApply} />
+          </>)
+        }
 
       </div>
     );
