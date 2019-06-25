@@ -30,28 +30,31 @@ class App extends Component {
   // ensures currUser is updated prior to rendering page
   async componentDidMount() {
     let token = localStorage.getItem("_token")
+    debugger;
     try {
       if (token && !this.props.currUser) {
         await this.updateCurrUser(token);
-
         this.props.history.push('/jobs')
+      } else {
+        this.setState({
+          loading: false,
+        })
       }
     } catch (err) {
       this.setState({
         error: err
       });
     }
-    this.setState({
-      loading: false,
-    })
   }
 
   // helper function that decodes token to 
   // set user's username in state
   async updateCurrUser(token) {
+    // let token = localStorage.getItem("_token")
     try {
       if (token && !this.props.currUser) {
         let username = decode(token).username;
+        debugger
         await this.props.getUserInfoViaToken(username);
       }
       this.setState({
@@ -121,12 +124,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {!this.props.currUser
-          ? <p>loading...</p>
-          : (<>
+        {this.props.currUser
+          ? (<>
             <NavBar currUser={this.props.currUser} triggerLogout={this.handleLogout} />
             <Routes currUser={this.props.currUser} triggerLogin={this.handleLogin} triggerRegister={this.handleRegister} triggerApply={this.handleApply} />
           </>)
+          : <p>loading...</p>
         }
 
       </div>
