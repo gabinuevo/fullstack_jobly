@@ -17,7 +17,16 @@ class PrivateRoutes extends Component {
 	}
 
 	render() {
+		const { username,
+			first_name,
+			last_name,
+			email,
+			photo_url,
+			jobs,
+		} = this.props.currUser
 
+		const { triggerApply } = this.props;
+		
 		return (
 			<div className="PrivateRoutes" >
 
@@ -38,8 +47,8 @@ class PrivateRoutes extends Component {
 						path="/companies/:handle"
 						render={(rtProps) => <Company
 							handle={rtProps.match.params.handle}
-							currJobs={this.props.currUser.jobs}
-							triggerApply={this.props.triggerApply}
+							triggerApply={triggerApply}
+							currJobs={jobs}
 						/>}
 					/>
 
@@ -47,8 +56,7 @@ class PrivateRoutes extends Component {
 						exact // see all jobs
 						path="/jobs"
 						render={() => <Jobs
-							currJobs={this.props.currUser.jobs}
-							triggerApply={this.props.triggerApply}
+							triggerApply={triggerApply}
 						/>}
 					/>
 
@@ -56,7 +64,7 @@ class PrivateRoutes extends Component {
 						exact // see applied jobs
 						path="/my-jobs"
 						render={() => <MyJobs
-							triggerApply={this.props.triggerApply}
+							triggerApply={triggerApply}
 						/>}
 					/>
 
@@ -64,11 +72,11 @@ class PrivateRoutes extends Component {
 						exact // update profile
 						path="/profile"
 						render={() => <Profile
-							username={this.props.currUser.username}
-							first_name={this.props.currUser.first_name}
-							last_name={this.props.currUser.last_name}
-							email={this.props.currUser.email}
-							photo_url={this.props.currUser.photo_url}
+							username={username}
+							first_name={first_name}
+							last_name={last_name}
+							email={email}
+							photo_url={photo_url}
 						/>}
 					/>
 
