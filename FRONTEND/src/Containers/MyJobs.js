@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import JobCard from './JobCard';
+import { connect } from 'react-redux';
+
+import JobCard from '../Components/JobCard';
 
 class MyJobs extends Component {
+
+
   render() {
     const appliedJobs = new Set(this.props.currJobs.map(job => job.id));
     const jobs = this.props.currJobs.map(job =>
@@ -12,7 +16,7 @@ class MyJobs extends Component {
         key={job.id}
         id={job.id}
         applied={appliedJobs.has(job.id)}
-        triggerApply={() => this.props.triggerApply(job.id, appliedJobs.has(job.id))}
+        triggerApply={() => this.props.triggerApply(job.id, appliedJobs.has(job.id), job)}
       />
     )
     return (
@@ -24,4 +28,10 @@ class MyJobs extends Component {
   }
 }
 
-export default MyJobs;
+function mapStateToProps(reduxState) {
+  return {
+    currJobs: reduxState.currUser.jobs,
+  };
+}
+
+export default connect(mapStateToProps)(MyJobs);
