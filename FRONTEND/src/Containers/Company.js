@@ -48,7 +48,7 @@ class Company extends Component {
           equity={job.equity}
           key={job.id}
           applied={appliedJobs.has(job.id)}
-          triggerApply={() => this.props.triggerApply(job.id)}
+          triggerApply={() => this.props.triggerApply(job.id, appliedJobs.has(job.id), job)}
         />
       )
     }

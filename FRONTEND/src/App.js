@@ -8,7 +8,6 @@ import {
   getUserInfoViaRegister
 } from './Actions/UserActions';
 import { postJobApp } from './Actions/ApplicationActions';
-import JoblyApi from './JoblyAPI';
 import Routes from './Routes/Routes'
 import NavBar from './Components/NavBar'
 import './Styles/App.css';
