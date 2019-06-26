@@ -55,7 +55,6 @@ export function getUserInfoViaRegister(inputObj) {
 }
 
 function madeUser(newUser) {
-  debugger
   return {
     type: POST_REGISTER,
     payload: { newUser }

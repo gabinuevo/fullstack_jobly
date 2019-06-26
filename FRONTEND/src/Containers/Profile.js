@@ -65,6 +65,7 @@ class Profile extends Component {
 
     return (
       <div className="Profile">
+        <img className="Profile-Image" src={this.props.photo_url || DEFAULT_PICTURE} alt="profile pic"></img>
         <h1>Edit Profile for {this.props.username}</h1>
         <form className="Profile" onSubmit={this.handleSubmit}>
           <div>
@@ -104,7 +105,6 @@ class Profile extends Component {
             <button>Submit</button>
           </div>
           <b> {alert} </b>
-          <img className="Profile-Image" src={this.props.photo_url || DEFAULT_PICTURE} alt="profile pic"></img>
         </form>
 
       </div>
@@ -112,7 +112,7 @@ class Profile extends Component {
   }
 }
 
-function mapStateToProps(reduxState) {
+function mapStateToProps() {
   return {};
 }
 const mapDispatchToProps = {
