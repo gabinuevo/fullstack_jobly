@@ -66,9 +66,9 @@ router.post("/", async function (req, res, next) {
 router.post("/login", async function (req, res, next) {
   try {
     const { username, password } = req.body;
-    console.log("HIHELLOHIHELLOSDJALDJ", username, password);
+
     const user = await User.loginUser(username, password);
-    console.log("OMFGOMFGOMFGOMG", user);
+
     if (!user) {
       throw new ExpressError("Invalid credentials", UNAUTHORIZED);
     } else {
