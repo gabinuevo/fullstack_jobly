@@ -10,6 +10,10 @@ class JoblyApi {
     try {
       let response = (await axios({
         method: verb,
+        headers: {
+          'Access-Control-Allow-Credentials': true,
+          'Access-Control-Allow-Origin': 'https://frontend-jobly.herokuapp.com/'
+        },
         url: `${BASE_URL}${endpoint}`,
         [verb === "get" ? "params" : "data"]: paramsOrData
       })).data;
