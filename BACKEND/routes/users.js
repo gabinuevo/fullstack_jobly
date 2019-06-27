@@ -68,11 +68,12 @@ router.post("/login", async function (req, res, next) {
     const { username, password } = req.body;
     console.log("HIHELLOHIHELLOSDJALDJ", username, password);
     const user = await User.loginUser(username, password);
+    console.log("OMFGOMFGOMFGOMG", user);
     if (!user) {
       throw new ExpressError("Invalid credentials", UNAUTHORIZED);
     } else {
       let token = jwt.sign({ ...user }, SECRET_KEY);
-      return res.status(200).json({ message: "hi" });
+      return res.status(200).json({ user, token });
     }
   } catch (err) {
     return next(err);
