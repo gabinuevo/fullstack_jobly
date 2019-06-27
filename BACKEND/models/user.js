@@ -2,7 +2,7 @@
 const db = require('../db');
 const bcrypt = require("bcrypt");
 const sqlForPartialUpdate = require('../helpers/partialUpdate');
-const { makeInsertQuery } = require('../helpers/UserQueryGens');
+const { makeInsertQuery } = require('../helpers/userQueryGens');
 const { BAD_REQUEST, NOT_FOUND, UNAUTHORIZED, saltRounds } = require('../config');
 
 
