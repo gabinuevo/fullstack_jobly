@@ -72,7 +72,7 @@ router.post("/login", async function (req, res, next) {
       throw new ExpressError("Invalid credentials", UNAUTHORIZED);
     } else {
       let token = jwt.sign({ ...user }, SECRET_KEY);
-      return res.status(200).json({ user, token });
+      return res.status(200).json({ message: "hi" });
     }
   } catch (err) {
     return next(err);
