@@ -1,20 +1,24 @@
-/** Express app for jobly. */
+// /** Express app for jobly. */
 
 // const express = require("express");
 // const app = express();
 // const cors = require("cors");
+// app.use(express.json());
 // app.use(cors());
 // app.options('*', cors())
 
-const cors = require('cors');
-const express = require('express');
+
+// // add logging system
+// const morgan = require("morgan");
+// app.use(morgan("tiny"));
+const express = require("express");
 const app = express();
+const cors = require("cors");
 app.use(express.json());
 app.use(cors());
-app.options('*', cors());
-
 
 // add logging system
+
 const morgan = require("morgan");
 app.use(morgan("tiny"));
 
