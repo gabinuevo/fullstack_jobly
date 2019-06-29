@@ -37,7 +37,7 @@ SET default_with_oids = false;
 -- Name: applications; Type: TABLE; Schema: public; Owner: gabriela
 --
 
-CREATE TABLE public.applications (
+CREATE TABLE applications (
     username text NOT NULL,
     job_id integer NOT NULL,
     state text NOT NULL,
@@ -45,13 +45,13 @@ CREATE TABLE public.applications (
 );
 
 
-ALTER TABLE public.applications OWNER TO gabriela;
+ALTER TABLE applications OWNER TO gabriela;
 
 --
 -- Name: companies; Type: TABLE; Schema: public; Owner: gabriela
 --
 
-CREATE TABLE public.companies (
+CREATE TABLE companies (
     handle text NOT NULL,
     name text NOT NULL,
     num_employees integer,
@@ -60,13 +60,13 @@ CREATE TABLE public.companies (
 );
 
 
-ALTER TABLE public.companies OWNER TO gabriela;
+ALTER TABLE companies OWNER TO gabriela;
 
 --
 -- Name: jobs; Type: TABLE; Schema: public; Owner: gabriela
 --
 
-CREATE TABLE public.jobs (
+CREATE TABLE jobs (
     id integer NOT NULL,
     title text NOT NULL,
     salary double precision,
@@ -76,13 +76,13 @@ CREATE TABLE public.jobs (
 );
 
 
-ALTER TABLE public.jobs OWNER TO gabriela;
+ALTER TABLE jobs OWNER TO gabriela;
 
 --
 -- Name: jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: gabriela
 --
 
-CREATE SEQUENCE public.jobs_id_seq
+CREATE SEQUENCE jobs_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -91,20 +91,20 @@ CREATE SEQUENCE public.jobs_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.jobs_id_seq OWNER TO gabriela;
+ALTER TABLE jobs_id_seq OWNER TO gabriela;
 
 --
 -- Name: jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: gabriela
 --
 
-ALTER SEQUENCE public.jobs_id_seq OWNED BY public.jobs.id;
+ALTER SEQUENCE jobs_id_seq OWNED BY jobs.id;
 
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: gabriela
 --
 
-CREATE TABLE public.users (
+CREATE TABLE users (
     username text NOT NULL,
     password text NOT NULL,
     first_name text,
@@ -115,20 +115,20 @@ CREATE TABLE public.users (
 );
 
 
-ALTER TABLE public.users OWNER TO gabriela;
+ALTER TABLE users OWNER TO gabriela;
 
 --
 -- Name: jobs id; Type: DEFAULT; Schema: public; Owner: gabriela
 --
 
-ALTER TABLE ONLY public.jobs ALTER COLUMN id SET DEFAULT nextval('public.jobs_id_seq'::regclass);
+ALTER TABLE ONLY jobs ALTER COLUMN id SET DEFAULT nextval('jobs_id_seq'::regclass);
 
 
 --
 -- Data for Name: applications; Type: TABLE DATA; Schema: public; Owner: gabriela
 --
 
-COPY public.applications (username, job_id, state, created_at) FROM stdin;
+COPY applications (username, job_id, state, created_at) FROM stdin;
 \.
 
 
@@ -136,7 +136,7 @@ COPY public.applications (username, job_id, state, created_at) FROM stdin;
 -- Data for Name: companies; Type: TABLE DATA; Schema: public; Owner: gabriela
 --
 
-COPY public.companies (handle, name, num_employees, description, logo_url) FROM stdin;
+COPY companies (handle, name, num_employees, description, logo_url) FROM stdin;
 edwards-lee-and-reese	Edwards, Lee and Reese	744	To much recent it reality coach decision Mr. Dog language evidence minute either deep situation pattern. Other cold bad loss surface real show.	http://www.gtdesigns.it/wp-content/uploads/OverusedLogos/99gen_circle.jpg
 sellers-bryant	Sellers-Bryant	369	Language discussion mission soon wait according executive. Financial say husband anyone money politics. Dinner action purpose mouth environment I white.	http://www.gtdesigns.it/wp-content/uploads/OverusedLogos/99gen_arc.jpg
 bauer-gallagher	Bauer-Gallagher	862	Difficult ready trip question produce produce someone.	
@@ -194,7 +194,7 @@ erickson-inc	Erickson Inc	267	Interesting environment owner beautiful school pol
 -- Data for Name: jobs; Type: TABLE DATA; Schema: public; Owner: gabriela
 --
 
-COPY public.jobs (id, title, salary, equity, company_handle) FROM stdin;
+COPY jobs (id, title, salary, equity, company_handle) FROM stdin;
 1	Editor, magazine features	118000	0.149999999999999994	foster-rice
 2	Tree surgeon	130000	0.0800000000000000017	hall-davis
 3	Multimedia programmer	154000	0.0400000000000000008	owen-newton
@@ -402,7 +402,7 @@ COPY public.jobs (id, title, salary, equity, company_handle) FROM stdin;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: gabriela
 --
 
-COPY public.users (username, password, first_name, last_name, email, photo_url, is_admin) FROM stdin;
+COPY users (username, password, first_name, last_name, email, photo_url, is_admin) FROM stdin;
 testuser	$2b$10$REv6t9K7EHqWCc76/SI37ODRvFfW/sPMflZpG9r4EdZPQt4QwwMf2	gabriela	Burton	gabriela@gabrielaburton.com	\N	f
 \.
 
@@ -411,14 +411,14 @@ testuser	$2b$10$REv6t9K7EHqWCc76/SI37ODRvFfW/sPMflZpG9r4EdZPQt4QwwMf2	gabriela	B
 -- Name: jobs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gabriela
 --
 
-SELECT pg_catalog.setval('public.jobs_id_seq', 2, true);
+SELECT pg_catalog.setval('jobs_id_seq', 2, true);
 
 
 --
 -- Name: applications applications_pkey; Type: CONSTRAINT; Schema: public; Owner: gabriela
 --
 
-ALTER TABLE ONLY public.applications
+ALTER TABLE ONLY applications
     ADD CONSTRAINT applications_pkey PRIMARY KEY (username, job_id);
 
 
@@ -426,7 +426,7 @@ ALTER TABLE ONLY public.applications
 -- Name: companies companies_name_key; Type: CONSTRAINT; Schema: public; Owner: gabriela
 --
 
-ALTER TABLE ONLY public.companies
+ALTER TABLE ONLY companies
     ADD CONSTRAINT companies_name_key UNIQUE (name);
 
 
@@ -434,7 +434,7 @@ ALTER TABLE ONLY public.companies
 -- Name: companies companies_pkey; Type: CONSTRAINT; Schema: public; Owner: gabriela
 --
 
-ALTER TABLE ONLY public.companies
+ALTER TABLE ONLY companies
     ADD CONSTRAINT companies_pkey PRIMARY KEY (handle);
 
 
@@ -442,7 +442,7 @@ ALTER TABLE ONLY public.companies
 -- Name: jobs jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: gabriela
 --
 
-ALTER TABLE ONLY public.jobs
+ALTER TABLE ONLY jobs
     ADD CONSTRAINT jobs_pkey PRIMARY KEY (id);
 
 
@@ -450,7 +450,7 @@ ALTER TABLE ONLY public.jobs
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: gabriela
 --
 
-ALTER TABLE ONLY public.users
+ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (username);
 
 
@@ -458,24 +458,24 @@ ALTER TABLE ONLY public.users
 -- Name: applications applications_job_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: gabriela
 --
 
-ALTER TABLE ONLY public.applications
-    ADD CONSTRAINT applications_job_id_fkey FOREIGN KEY (job_id) REFERENCES public.jobs(id) ON DELETE CASCADE;
+ALTER TABLE ONLY applications
+    ADD CONSTRAINT applications_job_id_fkey FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE;
 
 
 --
 -- Name: applications applications_username_fkey; Type: FK CONSTRAINT; Schema: public; Owner: gabriela
 --
 
-ALTER TABLE ONLY public.applications
-    ADD CONSTRAINT applications_username_fkey FOREIGN KEY (username) REFERENCES public.users(username) ON DELETE CASCADE;
+ALTER TABLE ONLY applications
+    ADD CONSTRAINT applications_username_fkey FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE;
 
 
 --
 -- Name: jobs jobs_company_handle_fkey; Type: FK CONSTRAINT; Schema: public; Owner: gabriela
 --
 
-ALTER TABLE ONLY public.jobs
-    ADD CONSTRAINT jobs_company_handle_fkey FOREIGN KEY (company_handle) REFERENCES public.companies(handle) ON DELETE CASCADE;
+ALTER TABLE ONLY jobs
+    ADD CONSTRAINT jobs_company_handle_fkey FOREIGN KEY (company_handle) REFERENCES companies(handle) ON DELETE CASCADE;
 
 
 --
