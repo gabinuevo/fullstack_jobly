@@ -1,41 +1,41 @@
---
--- PostgreSQL database dump
---
+DROP DATABASE IF EXISTS  jobly;
 
--- Dumped from database version 10.5
--- Dumped by pg_dump version 10.5
+-- DROP TABLE IF EXISTS  companies;
+-- DROP TABLE IF EXISTS  jobs;
+-- DROP TABLE IF EXISTS  users;
 
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET row_security = off;
+CREATE DATABASE jobly;
 
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
- 
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+\c jobly
 
+CREATE TABLE companies (
+    handle text PRIMARY KEY,
+    name text NOT NULL UNIQUE,
+    num_employees integer,
+    description text,
+    logo_url text
+);
 
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
+CREATE TABLE jobs (
+    id SERIAL PRIMARY KEY,
+    title text NOT NULL,
+    salary float NOT NULL,
+    equity float NOT NULL,
+    company_handle text NOT NULL REFERENCES companies ON DELETE CASCADE,
+    date_posted timestamp without time zone DEFAULT NOW() NOT NULL
+    CONSTRAINT equity CHECK ((equity<=1))
+);
 
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
-
---
--- Name: applications; Type: TABLE; Schema: public; Owner: gabriela
---
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username text NOT NULL UNIQUE,
+    password text NOT NULL,
+    first_name text NOT NULL,
+    last_name text NOT NULL,
+    email text NOT NULL UNIQUE,
+    photo_url text,
+    is_admin BOOLEAN DEFAULT FALSE
+);
 
 CREATE TABLE applications (
     username text NOT NULL,
@@ -44,99 +44,17 @@ CREATE TABLE applications (
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
 
-
-ALTER TABLE applications OWNER TO gabriela;
-
---
--- Name: companies; Type: TABLE; Schema: public; Owner: gabriela
---
-
-CREATE TABLE companies (
-    handle text NOT NULL,
-    name text NOT NULL,
-    num_employees integer,
-    description text,
-    logo_url text
-);
+-- CREATE TABLE messages (
+--     id SERIAL PRIMARY KEY,
+--     from_username text NOT NULL REFERENCES users,
+--     to_username text NOT NULL REFERENCES users,
+--     body text NOT NULL,
+--     sent_at timestamp without time zone NOT NULL,
+--     read_at timestamp without time zone
+-- );
 
 
-ALTER TABLE companies OWNER TO gabriela;
-
---
--- Name: jobs; Type: TABLE; Schema: public; Owner: gabriela
---
-
-CREATE TABLE jobs (
-    id integer NOT NULL,
-    title text NOT NULL,
-    salary double precision,
-    equity double precision,
-    company_handle text NOT NULL,
-    CONSTRAINT jobs_equity_check CHECK ((equity <= (1.0)::double precision))
-);
-
-
-ALTER TABLE jobs OWNER TO gabriela;
-
---
--- Name: jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: gabriela
---
-
-CREATE SEQUENCE jobs_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE jobs_id_seq OWNER TO gabriela;
-
---
--- Name: jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: gabriela
---
-
-ALTER SEQUENCE jobs_id_seq OWNED BY jobs.id;
-
-
---
--- Name: users; Type: TABLE; Schema: public; Owner: gabriela
---
-
-CREATE TABLE users (
-    username text NOT NULL,
-    password text NOT NULL,
-    first_name text,
-    last_name text,
-    email text,
-    photo_url text,
-    is_admin boolean DEFAULT false NOT NULL
-);
-
-
-ALTER TABLE users OWNER TO gabriela;
-
---
--- Name: jobs id; Type: DEFAULT; Schema: public; Owner: gabriela
---
-
-ALTER TABLE ONLY jobs ALTER COLUMN id SET DEFAULT nextval('jobs_id_seq'::regclass);
-
-
---
--- Data for Name: applications; Type: TABLE DATA; Schema: public; Owner: gabriela
---
-
-COPY applications (username, job_id, state, created_at) FROM stdin;
-\.
-
-
---
--- Data for Name: companies; Type: TABLE DATA; Schema: public; Owner: gabriela
---
-
-COPY companies (handle, name, num_employees, description, logo_url) FROM stdin;
+COPY public.companies (handle, name, num_employees, description, logo_url) FROM stdin;
 edwards-lee-and-reese	Edwards, Lee and Reese	744	To much recent it reality coach decision Mr. Dog language evidence minute either deep situation pattern. Other cold bad loss surface real show.	http://www.gtdesigns.it/wp-content/uploads/OverusedLogos/99gen_circle.jpg
 sellers-bryant	Sellers-Bryant	369	Language discussion mission soon wait according executive. Financial say husband anyone money politics. Dinner action purpose mouth environment I white.	http://www.gtdesigns.it/wp-content/uploads/OverusedLogos/99gen_arc.jpg
 bauer-gallagher	Bauer-Gallagher	862	Difficult ready trip question produce produce someone.	
@@ -191,10 +109,10 @@ erickson-inc	Erickson Inc	267	Interesting environment owner beautiful school pol
 
 
 --
--- Data for Name: jobs; Type: TABLE DATA; Schema: public; Owner: gabriela
+-- Data for Name: jobs; Type: TABLE DATA; Schema: public; Owner: joel
 --
 
-COPY jobs (id, title, salary, equity, company_handle) FROM stdin;
+COPY public.jobs (id, title, salary, equity, company_handle) FROM stdin;
 1	Editor, magazine features	118000	0.149999999999999994	foster-rice
 2	Tree surgeon	130000	0.0800000000000000017	hall-davis
 3	Multimedia programmer	154000	0.0400000000000000008	owen-newton
@@ -399,86 +317,85 @@ COPY jobs (id, title, salary, equity, company_handle) FROM stdin;
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: gabriela
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: joel
 --
 
-COPY users (username, password, first_name, last_name, email, photo_url, is_admin) FROM stdin;
-testuser	$2b$10$REv6t9K7EHqWCc76/SI37ODRvFfW/sPMflZpG9r4EdZPQt4QwwMf2	gabriela	Burton	gabriela@gabrielaburton.com	\N	f
+COPY public.users (username, password, first_name, last_name, email, photo_url, is_admin) FROM stdin;
+testuser	$2b$10$REv6t9K7EHqWCc76/SI37ODRvFfW/sPMflZpG9r4EdZPQt4QwwMf2	Joel	Burton	joel@joelburton.com	\N	f
 \.
 
 
 --
--- Name: jobs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gabriela
+-- Name: jobs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: joel
 --
 
-SELECT pg_catalog.setval('jobs_id_seq', 2, true);
+SELECT pg_catalog.setval('public.jobs_id_seq', 2, true);
 
 
 --
--- Name: applications applications_pkey; Type: CONSTRAINT; Schema: public; Owner: gabriela
+-- Name: applications applications_pkey; Type: CONSTRAINT; Schema: public; Owner: joel
 --
 
-ALTER TABLE ONLY applications
+ALTER TABLE ONLY public.applications
     ADD CONSTRAINT applications_pkey PRIMARY KEY (username, job_id);
 
 
 --
--- Name: companies companies_name_key; Type: CONSTRAINT; Schema: public; Owner: gabriela
+-- Name: companies companies_name_key; Type: CONSTRAINT; Schema: public; Owner: joel
 --
 
-ALTER TABLE ONLY companies
+ALTER TABLE ONLY public.companies
     ADD CONSTRAINT companies_name_key UNIQUE (name);
 
 
 --
--- Name: companies companies_pkey; Type: CONSTRAINT; Schema: public; Owner: gabriela
+-- Name: companies companies_pkey; Type: CONSTRAINT; Schema: public; Owner: joel
 --
 
-ALTER TABLE ONLY companies
+ALTER TABLE ONLY public.companies
     ADD CONSTRAINT companies_pkey PRIMARY KEY (handle);
 
 
 --
--- Name: jobs jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: gabriela
+-- Name: jobs jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: joel
 --
 
-ALTER TABLE ONLY jobs
+ALTER TABLE ONLY public.jobs
     ADD CONSTRAINT jobs_pkey PRIMARY KEY (id);
 
 
 --
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: gabriela
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: joel
 --
 
-ALTER TABLE ONLY users
+ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (username);
 
 
 --
--- Name: applications applications_job_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: gabriela
+-- Name: applications applications_job_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: joel
 --
 
-ALTER TABLE ONLY applications
-    ADD CONSTRAINT applications_job_id_fkey FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE;
-
-
---
--- Name: applications applications_username_fkey; Type: FK CONSTRAINT; Schema: public; Owner: gabriela
---
-
-ALTER TABLE ONLY applications
-    ADD CONSTRAINT applications_username_fkey FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE;
+ALTER TABLE ONLY public.applications
+    ADD CONSTRAINT applications_job_id_fkey FOREIGN KEY (job_id) REFERENCES public.jobs(id) ON DELETE CASCADE;
 
 
 --
--- Name: jobs jobs_company_handle_fkey; Type: FK CONSTRAINT; Schema: public; Owner: gabriela
+-- Name: applications applications_username_fkey; Type: FK CONSTRAINT; Schema: public; Owner: joel
 --
 
-ALTER TABLE ONLY jobs
-    ADD CONSTRAINT jobs_company_handle_fkey FOREIGN KEY (company_handle) REFERENCES companies(handle) ON DELETE CASCADE;
+ALTER TABLE ONLY public.applications
+    ADD CONSTRAINT applications_username_fkey FOREIGN KEY (username) REFERENCES public.users(username) ON DELETE CASCADE;
+
+
+--
+-- Name: jobs jobs_company_handle_fkey; Type: FK CONSTRAINT; Schema: public; Owner: joel
+--
+
+ALTER TABLE ONLY public.jobs
+    ADD CONSTRAINT jobs_company_handle_fkey FOREIGN KEY (company_handle) REFERENCES public.companies(handle) ON DELETE CASCADE;
 
 
 --
 -- PostgreSQL database dump complete
 --
-

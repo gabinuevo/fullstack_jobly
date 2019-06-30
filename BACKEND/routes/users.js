@@ -51,7 +51,9 @@ router.post("/", async function (req, res, next) {
       const errors = validation.errors.map(e => e.stack);
       throw new ExpressError(errors, BAD_REQUEST);
     }
+    console.log("post 1")
     const user = await User.addUser(req.body);
+    console.log("post 2")
     const token = jwt.sign({ ...user }, SECRET_KEY);
 
     return res.status(201).json({ user, token });
@@ -66,9 +68,9 @@ router.post("/", async function (req, res, next) {
 router.post("/login", async function (req, res, next) {
   try {
     const { username, password } = req.body;
-
+    console.log("jason was here")
     const user = await User.loginUser(username, password);
-
+    console.log("jason still here?")
     if (!user) {
       throw new ExpressError("Invalid credentials", UNAUTHORIZED);
     } else {
