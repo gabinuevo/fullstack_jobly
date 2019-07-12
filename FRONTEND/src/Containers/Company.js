@@ -3,7 +3,6 @@ import JoblyApi from '../JoblyAPI';
 import JobCard from '../Components/JobCard';
 
 import '../Styles/Company.css';
-// TODO: Convert to component?
 /**
  * Recieves ONE company data from API request
  * Renders ONE company details

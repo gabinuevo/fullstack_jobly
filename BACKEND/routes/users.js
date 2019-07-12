@@ -10,7 +10,6 @@ const User = require("../models/user");
 
 const router = new Router();
 
-// TODO: update ensure loggedin to get it to the routes.
 /** GET /  - get full list of users
  * => {users: [{username, first_name, last_name, email, photo_url, isAdmin}, ...]}
  */
