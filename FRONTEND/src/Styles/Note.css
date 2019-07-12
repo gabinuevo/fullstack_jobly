@@ -1,0 +1,13 @@
+.Note-Text {
+  padding: 0.7em;
+  max-width: 17vw;
+  border-radius: 2px;
+  color: rgb(155, 153, 153);
+  font-size: 0.7em;
+  font-style: italic;
+}
+
+.Note {
+  display: flex;
+  justify-content: center;
+}

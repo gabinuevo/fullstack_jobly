@@ -29,6 +29,7 @@ class JoblyApi {
   /** gets all companies that match search query.*/
   static async getCompanies(params = {}) {
     let res = await this.request(`companies/`, params);
+    
     return res.companies;
   }
 

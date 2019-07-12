@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Note from '../Components/Note';
 import '../Styles/Login.css';
 
 /**
@@ -21,10 +22,10 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  /** send inputs to App.js, redirects to /jobs after*/ 
+  /** send inputs to App.js, redirects to /jobs after*/
   async handleSubmit(evt) {
     evt.preventDefault();
-    if(this.props.path === "/login"){
+    if (this.props.path === "/login") {
       await this.props.triggerLogin({
         username: this.state.username,
         password: this.state.password
@@ -40,25 +41,26 @@ class Login extends Component {
       [evt.target.name]: evt.target.value
     })
   }
-  
+
   render() {
     return (
-      <form className="Login" onSubmit={ this.handleSubmit }>
+      <form className="Login" onSubmit={this.handleSubmit}>
         <label htmlFor="username">Username</label>
-        <input name="username" id="username" value={ this.state.username } onChange={ this.handleChange }></input>
+        <input name="username" id="username" value={this.state.username} onChange={this.handleChange}></input>
 
         <label htmlFor="password">Password</label>
-        <input name="password" id="password" type="password" value={ this.state.password } onChange={ this.handleChange }></input>
+        <input name="password" id="password" type="password" value={this.state.password} onChange={this.handleChange}></input>
 
         {/* conditional to turn form into registration form */}
-        { this.props.path === "/register" &&
+        {this.props.path === "/register" &&
           <section>
             <label htmlFor="first_name">First name</label>
-            <input name="first_name" id="first_name" value={ this.state.first_name } onChange={ this.handleChange }></input>
+            <input name="first_name" id="first_name" value={this.state.first_name} onChange={this.handleChange}></input>
             <label htmlFor="last_name">Last name</label>
-            <input name="last_name" id="last_name" value={ this.state.last_name } onChange={ this.handleChange }></input>
+            <input name="last_name" id="last_name" value={this.state.last_name} onChange={this.handleChange}></input>
             <label htmlFor="email">Email</label>
-            <input name="email" id="email" value={ this.state.email } onChange={ this.handleChange }></input>
+            <input name="email" id="email" value={this.state.email} onChange={this.handleChange}></input>
+            <Note note="Please note: emails must end in .com" />
           </section>
         }
         <button>Submit</button>
